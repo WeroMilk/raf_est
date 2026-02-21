@@ -11,6 +11,8 @@
     "build:data": "node scripts/parse-excel-to-json.mjs",
     "merge-buscador": "node scripts/merge-buscador-escuelas.mjs",
     "generate-auth": "node scripts/generate-auth.mjs",
+    "generate-auth-simple": "node scripts/generate-auth-simple.mjs",
+    "sync-auth-escuelas": "node scripts/sync-auth-escuelas.mjs",
     "start": "next start",
     "regenerate-super": "node scripts/regenerate-super-only.mjs",
     "ver-hash-super": "node scripts/ver-hash-super.mjs",

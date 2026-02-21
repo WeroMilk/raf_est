@@ -27,12 +27,11 @@ function load(): AuthData {
         ? (parsed["escuelas"] as Record<string, string>)
         : {};
     const superHash = envSuperHash || fileSuperHash;
-    if (process.env.NODE_ENV === "development") {
-      console.log("[auth-data] load:", { hasSuper: !!superHash, fromEnv: !!envSuperHash, escuelasCount: Object.keys(escuelas).length });
-    }
     return { superUsuario: superHash, escuelas };
   } catch (err) {
-    console.error("[auth-data] Error leyendo", filePath, err);
+    if (process.env.NODE_ENV === "development") {
+      console.error("[auth-data] Error leyendo", filePath, err);
+    }
     return { superUsuario: envSuperHash, escuelas: {} };
   }
 }
@@ -51,6 +50,10 @@ function normalizePasswordForVerify(password: string): string {
 export function verifyPassword(password: string): { tipo: "super" | "escuela"; cct?: string } | null {
   const normalized = normalizePasswordForVerify(password);
   if (!normalized) return null;
+  const envSuperPassword = process.env.AUTH_SUPER_PASSWORD?.trim();
+  if (envSuperPassword && normalized === normalizePasswordForVerify(envSuperPassword)) {
+    return { tipo: "super" };
+  }
   const data = load();
   const hash = hashPassword(normalized);
   const superHash = (data.superUsuario || "").trim();

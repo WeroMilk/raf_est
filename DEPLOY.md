@@ -27,7 +27,10 @@ Las contraseñas están en `lib/auth-data.json` (hashes). Ese archivo **sí debe
 - **Super usuario**: una sola contraseña (hash en `superUsuario`) que ve todas las escuelas.
 - **Por escuela**: cada CCT tiene su contraseña en `escuelas`.
 
-**Si el super usuario no entra en producción** (pero sí en local): en Vercel puede que no se lea bien `auth-data.json`. Añade en Vercel la variable **AUTH_SUPER_HASH** con el hash del super. Para ver el hash actual (sin cambiar la contraseña):
+**Si el super usuario no entra en producción** (pero sí en local), tienes dos opciones en Vercel:
+
+- **Opción más simple:** Añade la variable **AUTH_SUPER_PASSWORD** con la contraseña del super en texto plano. Así el login acepta esa contraseña aunque `auth-data.json` no se lea bien. (Mantén esa variable secreta.)
+- **Opción por hash:** Añade **AUTH_SUPER_HASH** con el hash del super. Para ver el hash actual (sin cambiar la contraseña):
 
 ```bash
 node scripts/ver-hash-super.mjs
@@ -43,10 +46,18 @@ node scripts/regenerate-super-only.mjs
 
 Guarda la contraseña que imprime; opcionalmente copia el hash a **AUTH_SUPER_HASH** en Vercel si no subes `auth-data.json`.
 
-Para generar o regenerar contraseñas y actualizar `lib/auth-data.json`:
+Para generar o regenerar **todas** las contraseñas (1 super + una por cada escuela) y actualizar `lib/auth-data.json`:
 
 ```bash
 npm run generate-auth
 ```
 
-Guarda el archivo `lib/passwords-inicial.txt` en un lugar seguro y no lo subas a Git (ya está en `.gitignore`).
+Guarda el archivo `lib/passwords-inicial.txt` en un lugar seguro y no lo subas a Git (ya está en `.gitignore`). Tras regenerar, haz **commit y push** de `lib/auth-data.json` para que producción use los nuevos hashes.
+
+Si más adelante cambias el listado de escuelas (más o menos CCTs en `resultados.json`), puedes sincronizar solo la sección escuelas sin tocar el super:
+
+```bash
+npm run sync-auth-escuelas
+```
+
+Ese script añade hashes para CCTs nuevos (y escribe contraseñas en `lib/passwords-nuevos.txt`) y quita CCTs que ya no estén en resultados.

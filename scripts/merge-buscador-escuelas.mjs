@@ -34,12 +34,23 @@ const COLUMNAS = [
   "ALUMNOS",
 ];
 
+/** Corrige texto UTF-8 leído como Latin-1 (ej. PEÃA → PEÑA). */
+function fixUtf8Mojibake(str) {
+  if (typeof str !== "string") return str;
+  if (!/Ã[\x80-\xBF]/.test(str)) return str;
+  try {
+    return Buffer.from(str, "latin1").toString("utf8");
+  } catch {
+    return str;
+  }
+}
+
 function buildMapFromExcel(filePath) {
   const wb = XLSX.readFile(filePath, { type: "file" });
   const sheet = wb.Sheets[wb.SheetNames[0]];
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   if (rows.length < 2) return new Map();
-  const headerRow = rows[1].map((h) => (h != null ? String(h).trim().toUpperCase() : ""));
+  const headerRow = rows[1].map((h) => (h != null ? fixUtf8Mojibake(String(h).trim()).toUpperCase() : ""));
   const idx = {};
   COLUMNAS.forEach((col) => {
     const i = headerRow.indexOf(col.toUpperCase());
@@ -54,7 +65,8 @@ function buildMapFromExcel(filePath) {
       const j = idx[col];
       if (j == null) return undefined;
       const v = row[j];
-      return v != null && v !== "" ? String(v).trim() : undefined;
+      const s = v != null && v !== "" ? String(v).trim() : undefined;
+      return s != null ? fixUtf8Mojibake(s) : undefined;
     };
     map.set(cct, {
       nombre: get("NOMBRE"),

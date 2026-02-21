@@ -28,28 +28,58 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex min-h-dvh w-full max-w-full flex-col items-center justify-center px-4"
+      className="flex min-h-dvh w-full max-w-full flex-col items-center justify-center px-6 py-8"
       style={{
-        paddingLeft: "max(1rem, env(safe-area-inset-left))",
-        paddingRight: "max(1rem, env(safe-area-inset-right))",
-        paddingTop: "max(2rem, env(safe-area-inset-top))",
-        paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
+        paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
+        paddingRight: "max(1.5rem, env(safe-area-inset-right))",
+        paddingTop: "max(2.5rem, env(safe-area-inset-top))",
+        paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
       }}
     >
-      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6 text-center">
-        <div className="flex justify-center ml-5">
+      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-10 text-center">
+        <div className="flex justify-center">
           <LogoSonoraSec maxWidth={200} priority />
         </div>
-        <h1 className="text-lg font-bold text-foreground">RAF Matemáticas</h1>
-        <p className="text-sm text-foreground/70">Ingresa la contraseña de tu E.S.T.</p>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-lg font-bold text-foreground">RAF Matemáticas</h1>
+          <p className="text-sm text-foreground/70">Ingresa la contraseña de tu E.S.T.</p>
+        </div>
         <form
           action="/api/login"
           method="POST"
-          className="mt-2 w-full flex flex-col gap-4"
-          onSubmit={(e) => {
+          className="w-full flex flex-col gap-5"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const input = form.querySelector<HTMLInputElement>('input[name="password"]');
+            const password = input
+              ? input.value.trim().replace(/\s+/g, "").replace(/[\u200B-\u200D\uFEFF]/g, "")
+              : "";
+            if (!password) {
+              setError(ERROR_MESSAGES.empty);
+              return;
+            }
             setLoading(true);
-            const input = e.currentTarget.querySelector<HTMLInputElement>('input[name="password"]');
-            if (input) input.value = input.value.trim().replace(/\s+/g, "");
+            setError("");
+            try {
+              const res = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({ password }),
+                credentials: "include",
+              });
+              const data = (await res.json()) as { ok?: boolean; redirect?: string; error?: string; msg?: string };
+              if (data.ok && data.redirect) {
+                window.location.href = data.redirect;
+                return;
+              }
+              const err = data.msg ?? data.error ?? "invalid";
+              setError(ERROR_MESSAGES[err] ?? ERROR_MESSAGES[err as keyof typeof ERROR_MESSAGES] ?? String(err));
+            } catch {
+              setError(ERROR_MESSAGES.server);
+            } finally {
+              setLoading(false);
+            }
           }}
         >
           <label className="sr-only" htmlFor="password">
@@ -64,18 +94,18 @@ export default function LoginPage() {
             autoFocus
             required
             readOnly={loading}
-            className="card-ios w-full rounded-xl border border-border bg-card px-4 py-3 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60"
+            className="card-ios w-full rounded-xl border border-border bg-card px-4 py-3.5 text-foreground placeholder:text-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60"
           />
           {error && <p className="text-center text-sm text-red-600">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="link-ios w-full rounded-xl bg-primary py-3 font-medium text-primary-foreground disabled:opacity-60"
+            className="link-ios w-full rounded-xl bg-primary py-3.5 font-medium text-primary-foreground disabled:opacity-60"
           >
             {loading ? "Entrando…" : "Entrar"}
           </button>
         </form>
-        <p className="mt-auto pt-6 text-xs text-foreground/50">Mtra. Marta Camargo</p>
+        <p className="mt-auto pt-10 text-xs text-foreground/50">Mtra. Marta Camargo</p>
       </div>
     </div>
   );

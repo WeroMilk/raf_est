@@ -40,6 +40,12 @@ yarn-error.log*
 
 # contraseñas en claro (nunca subir)
 lib/passwords-inicial.txt
+lib/passwords-nuevos.txt
+USUARIOS-Y-CONTRASEÑAS.txt
+
+# datos generados (npm run build:data)
+public/data/resultados.json
+USUARIOS-Y-CONTRASEÑAS.txt
 
 # vercel
 .vercel

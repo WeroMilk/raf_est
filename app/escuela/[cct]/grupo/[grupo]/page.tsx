@@ -6,6 +6,7 @@ import ChartBarrasReactivos from "@/app/components/ChartBarrasReactivos";
 import ChartPastelNiveles from "@/app/components/ChartPastelNiveles";
 import TablaAlumnos from "@/app/components/TablaAlumnos";
 import BackButton from "@/app/components/BackButton";
+import ScrollOnlyWhenNeeded from "@/app/components/ScrollOnlyWhenNeeded";
 
 const NIVEL_TO_PARAM = {
   "REQUIERE APOYO": "REQUIERE_APOYO",
@@ -38,7 +39,7 @@ export default async function GrupoPage({
         <p className="text-xs text-foreground/80">{grupoData.total} alumnos</p>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden flex flex-col gap-2 pb-4" style={{ WebkitOverflowScrolling: "touch" }}>
+      <ScrollOnlyWhenNeeded className="min-h-0 flex-1 overflow-x-hidden flex flex-col gap-2 pb-4">
       <section className="grid min-w-0 grid-cols-3 gap-2 shrink-0">
         <Link
           href={`/por-nivel?nivel=${NIVEL_TO_PARAM["REQUIERE APOYO"]}&grupo=${encodeURIComponent(`${cct}|${grupoDecoded}`)}`}
@@ -98,7 +99,7 @@ export default async function GrupoPage({
         <h2 className="mb-2 text-xs font-semibold">Alumnos</h2>
         <TablaAlumnos alumnos={grupoData.alumnos} />
       </section>
-      </div>
+      </ScrollOnlyWhenNeeded>
     </div>
   );
 }

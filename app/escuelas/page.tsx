@@ -1,4 +1,5 @@
 import BackButton from "@/app/components/BackButton";
+import ScrollOnlyWhenNeeded from "@/app/components/ScrollOnlyWhenNeeded";
 import EscuelasContent from "./EscuelasContent";
 import { getEscuelasSync } from "@/lib/data-server";
 
@@ -16,9 +17,9 @@ export default function EscuelasPage() {
       {escuelas.length === 0 ? (
         <p className="text-xs text-foreground/60">No hay escuelas cargadas.</p>
       ) : (
-        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: "touch" }}>
+        <ScrollOnlyWhenNeeded className="min-h-0 flex-1 overflow-x-hidden">
           <EscuelasContent escuelas={escuelas} />
-        </div>
+        </ScrollOnlyWhenNeeded>
       )}
     </div>
   );

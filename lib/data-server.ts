@@ -1,13 +1,15 @@
 import * as fs from "fs";
 import * as path from "path";
 import type { ResultadosRAF, EscuelaResumen, NivelRAF } from "@/types/raf";
+import { fixObjectStrings } from "@/lib/utf8-fix";
 
 const DATA_PATH = path.join(process.cwd(), "public", "data", "resultados.json");
 
 function loadSync(): ResultadosRAF {
   try {
     const raw = fs.readFileSync(DATA_PATH, "utf8");
-    return JSON.parse(raw) as ResultadosRAF;
+    const parsed = JSON.parse(raw) as ResultadosRAF;
+    return fixObjectStrings(parsed);
   } catch {
     return { escuelas: [], generado: new Date().toISOString() };
   }

@@ -9,6 +9,17 @@ const DATA_DIR = process.env.DATA_DIR || path.join(ROOT, "data", "excel");
 const OUT_DIR = path.join(ROOT, "public", "data");
 const OUT_FILE = path.join(OUT_DIR, "resultados.json");
 
+/** Corrige texto UTF-8 leído como Latin-1 (ej. PEÃA → PEÑA). */
+function fixUtf8Mojibake(str) {
+  if (typeof str !== "string") return str;
+  if (!/Ã[\x80-\xBF]/.test(str)) return str;
+  try {
+    return Buffer.from(str, "latin1").toString("utf8");
+  } catch {
+    return str;
+  }
+}
+
 function normalizarGrupo(grupo) {
   if (grupo == null || grupo === "") return "S/G";
   const s = String(grupo).toUpperCase();
@@ -61,7 +72,8 @@ function procesarEscuela(filePath) {
   const hasQuizClass = Object.keys(data[0] || {}).some((k) => k === "QuizClass");
   const gruposSet = new Set();
   const rows = data.map((row) => {
-    const grupo = hasQuizClass ? normalizarGrupo(row.QuizClass) : "UNICO";
+    const grupoRaw = hasQuizClass ? fixUtf8Mojibake(String(row.QuizClass ?? "")) : "";
+    const grupo = grupoRaw ? normalizarGrupo(grupoRaw) : "UNICO";
     gruposSet.add(grupo);
     const porcentaje = calcularPorcentaje(row);
     const nivel = obtenerNivel(porcentaje);
@@ -129,8 +141,8 @@ function procesarEscuela(filePath) {
     return {
       nombre: nombreGrupo,
       alumnos: alumnosGrupo.map((r) => ({
-        nombre: String(r.FirstName ?? "").slice(0, 50),
-        apellido: String(r.LastName ?? "").slice(0, 50),
+        nombre: fixUtf8Mojibake(String(r.FirstName ?? "")).slice(0, 50),
+        apellido: fixUtf8Mojibake(String(r.LastName ?? "")).slice(0, 50),
         grupo: r._grupo,
         porcentaje: r._porcentaje,
         nivel: r._nivel,

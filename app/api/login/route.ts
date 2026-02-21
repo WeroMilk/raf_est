@@ -19,9 +19,16 @@ function getPasswordFromRequest(request: Request): Promise<string> {
       return typeof p === "string" ? normalizePassword(p) : "";
     });
   }
-  return request.json().then((body: { password?: string }) =>
-    typeof body?.password === "string" ? normalizePassword(body.password) : ""
-  );
+  if (contentType.includes("application/json")) {
+    return request.json().then((body: { password?: string }) =>
+      typeof body?.password === "string" ? normalizePassword(body.password) : ""
+    );
+  }
+  return Promise.resolve("");
+}
+
+function wantsJson(request: Request): boolean {
+  return (request.headers.get("accept") ?? "").includes("application/json");
 }
 
 function checkAuthSecret(): string | null {
@@ -30,10 +37,29 @@ function checkAuthSecret(): string | null {
   return "AUTH_SECRET";
 }
 
+function setSessionCookie(res: NextResponse, value: string) {
+  res.cookies.set(getSessionCookieName(), value, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 30 * 24 * 60 * 60,
+    path: "/",
+  });
+}
+
 export async function POST(request: Request) {
+  const json = wantsJson(request);
+  const baseUrl = new URL(request.url).origin;
+
   try {
     const secretError = checkAuthSecret();
     if (secretError) {
+      if (json) {
+        return NextResponse.json(
+          { ok: false, error: "auth_secret_required" },
+          { status: 200 }
+        );
+      }
       return NextResponse.redirect(
         new URL("/login?error=server&msg=auth_secret_required", request.url),
         302
@@ -41,6 +67,7 @@ export async function POST(request: Request) {
     }
     const password = await getPasswordFromRequest(request);
     if (!password) {
+      if (json) return NextResponse.json({ ok: false, error: "empty" }, { status: 200 });
       return NextResponse.redirect(new URL("/login?error=empty", request.url), 302);
     }
     const session = verifyPassword(password);
@@ -48,28 +75,31 @@ export async function POST(request: Request) {
       if (process.env.NODE_ENV === "development") {
         console.warn("[login] Contraseña no coincide con superUsuario ni con ninguna escuela en auth-data.json");
       }
+      if (json) return NextResponse.json({ ok: false, error: "invalid" }, { status: 200 });
       return NextResponse.redirect(new URL("/login?error=invalid", request.url), 302);
     }
     if (process.env.NODE_ENV === "development") {
       console.log("[login] OK tipo:", session.tipo, session.cct ?? "");
     }
     const value = await createSessionCookie(session);
-    const url =
+    const redirectUrl =
       session.tipo === "escuela" && session.cct
-        ? new URL(`/escuela/${session.cct}`, request.url)
-        : new URL("/", request.url);
-    const res = NextResponse.redirect(url, 302);
-    res.cookies.set(getSessionCookieName(), value, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 30 * 24 * 60 * 60,
-      path: "/",
-    });
+        ? `${baseUrl}/escuela/${session.cct}`
+        : `${baseUrl}/`;
+
+    if (json) {
+      const res = NextResponse.json({ ok: true, redirect: redirectUrl }, { status: 200 });
+      setSessionCookie(res, value);
+      return res;
+    }
+    const res = NextResponse.redirect(redirectUrl, 302);
+    setSessionCookie(res, value);
     return res;
   } catch (e) {
     const message = e instanceof Error ? e.message : "Error desconocido";
-    console.error("Login error:", e);
+    if (process.env.NODE_ENV === "development") {
+      console.error("Login error:", e);
+    }
     const isAuthSecret = message.includes("AUTH_SECRET");
     const msg =
       process.env.NODE_ENV === "development"
@@ -77,6 +107,12 @@ export async function POST(request: Request) {
         : isAuthSecret
           ? "auth_secret_required"
           : "error";
+    if (json) {
+      return NextResponse.json(
+        { ok: false, error: "server", msg },
+        { status: 200 }
+      );
+    }
     return NextResponse.redirect(
       new URL(`/login?error=server&msg=${encodeURIComponent(msg)}`, request.url),
       302

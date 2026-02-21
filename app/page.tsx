@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getResultadosSync } from "@/lib/data-server";
 import { COLORS } from "@/types/raf";
 import LogoSonoraSec from "@/app/components/LogoSonoraSec";
+import ScrollOnlyWhenNeeded from "@/app/components/ScrollOnlyWhenNeeded";
 
 export default function HomePage() {
   const { escuelas, generado } = getResultadosSync();
@@ -26,10 +27,10 @@ export default function HomePage() {
         </div>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden pb-2 lg:pb-4" style={{ WebkitOverflowScrolling: "touch" }}>
+      <ScrollOnlyWhenNeeded className="min-h-0 flex-1 overflow-x-hidden pb-2 lg:pb-4">
         {escuelas.length === 0 ? (
           <div className="card-ios rounded-2xl border border-border bg-card p-4 text-center text-sm">
-            <p className="text-foreground/80">No hay datos. Coloca *_actualizado.xlsx en data/excel/ y ejecuta npm run build:data</p>
+            <p className="text-foreground/80">No hay datos. Coloca los archivos *_actualizado.xlsx en data/excel/ y ejecuta npm run build:data.</p>
           </div>
         ) : (
           <>
@@ -96,7 +97,7 @@ export default function HomePage() {
             </p>
           </>
         )}
-      </div>
+      </ScrollOnlyWhenNeeded>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import ChartPastelNiveles from "@/app/components/ChartPastelNiveles";
 import BackButton from "@/app/components/BackButton";
 import LogoutButton from "@/app/components/LogoutButton";
 import LogoSonoraSec from "@/app/components/LogoSonoraSec";
+import ScrollOnlyWhenNeeded from "@/app/components/ScrollOnlyWhenNeeded";
 
 export default async function EscuelaPage({ params }: { params: Promise<{ cct: string }> }) {
   const { cct } = await params;
@@ -114,7 +115,7 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
         </section>
       </section>
 
-      <section className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden min-w-0 pb-8" style={{ WebkitOverflowScrolling: "touch" }}>
+      <ScrollOnlyWhenNeeded className="min-h-0 flex-1 overflow-x-hidden min-w-0 pb-8">
         <h2 className="mb-2 text-xs font-semibold lg:text-sm lg:mb-3 shrink-0">Grupos</h2>
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 content-start lg:gap-3">
           {escuela.grupos.map((g) => (
@@ -129,7 +130,7 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
             </li>
           ))}
         </ul>
-      </section>
+      </ScrollOnlyWhenNeeded>
     </div>
   );
 }
