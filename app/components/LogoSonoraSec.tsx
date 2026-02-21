@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
-/** Logo Sonora / SEC: sin fondo. Usa public/Logtipo_EscudoColor.png; si falla, muestra texto. */
 const LOGO_WRAPPER_CLASS =
   "rounded-xl p-2 flex items-center justify-center min-h-[72px] relative";
 
@@ -47,26 +47,22 @@ export default function LogoSonoraSec({
       className={`${LOGO_WRAPPER_CLASS} ${className}`}
       style={{ maxWidth: `${maxWidth}px` }}
     >
-      {/* Fallback solo cuando la imagen falla; mientras tanto no mostramos nada para evitar parpadeo */}
       {imgError && <LogoTextFallback />}
-      <img
+      <Image
         src="/Logtipo_EscudoColor.png"
         alt="Sonora Tierra de Oportunidades · Secretaría de Educación y Cultura"
+        width={Math.min(maxWidth, 400)}
+        height={80}
         className={
           imgLoaded && !imgError
             ? "w-full h-auto object-contain opacity-100 transition-opacity duration-200"
             : "absolute inset-0 m-auto max-h-[68px] w-auto max-w-full object-contain opacity-0 transition-opacity duration-200"
         }
-        style={{
-          maxWidth: "100%",
-          maxHeight: "68px",
-          imageRendering: "auto",
-        }}
-        width={Math.min(maxWidth, 400)}
-        height={80}
-        fetchPriority={priority ? "high" : undefined}
+        style={{ maxWidth: "100%", maxHeight: "68px" }}
+        priority={priority}
         onLoad={() => setImgLoaded(true)}
         onError={() => setImgError(true)}
+        unoptimized
       />
     </div>
   );

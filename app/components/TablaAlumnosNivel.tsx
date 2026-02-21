@@ -13,9 +13,7 @@ type SortCol = "alumno" | "grupo" | "porcentaje" | "cct";
 
 interface Props {
   alumnosConCct: Row[];
-  /** Si se define, se muestra solo esta cantidad de filas y un enlace "Ver todos" */
   maxRows?: number;
-  /** URL para "Ver todos" (ej. /por-nivel?nivel=REQUIERE_APOYO). Solo se usa si maxRows está definido. */
   verTodosHref?: string;
 }
 
@@ -83,7 +81,7 @@ export default function TablaAlumnosNivel({ alumnosConCct, maxRows, verTodosHref
   );
 
   return (
-    <div className="flex min-h-0 flex-col size-full">
+    <div className="flex min-h-0 min-w-0 flex-col size-full max-w-full">
       <div className="mb-0.5 shrink-0">
         <input
           type="search"

@@ -1,10 +1,3 @@
-/**
- * Script de build: lee *_actualizado.xlsx y genera public/data/resultados.json
- * Lógica alineada a MARTA.PY (porcentaje, nivel, normalización de grupo).
- * Ejecutar: node scripts/parse-excel-to-json.mjs
- * Colocar los 32 Excel en data/excel/ (o definir DATA_DIR).
- */
-
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";

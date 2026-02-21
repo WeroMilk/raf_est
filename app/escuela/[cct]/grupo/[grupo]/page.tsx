@@ -31,14 +31,15 @@ export default async function GrupoPage({
   const pctEsp = total ? Math.round((grupoData.esperado / total) * 100) : 0;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2 pb-2">
+    <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden p-2 min-w-0">
       <header className="shrink-0">
         <BackButton href={`/escuela/${cct}`} label={escuela.cct} />
         <h1 className="mt-1 text-base font-bold">Grupo {grupoData.nombre}</h1>
         <p className="text-xs text-foreground/80">{grupoData.total} alumnos</p>
       </header>
 
-      <section className="grid min-w-0 grid-cols-3 gap-2">
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden flex flex-col gap-2 pb-4" style={{ WebkitOverflowScrolling: "touch" }}>
+      <section className="grid min-w-0 grid-cols-3 gap-2 shrink-0">
         <Link
           href={`/por-nivel?nivel=${NIVEL_TO_PARAM["REQUIERE APOYO"]}&grupo=${encodeURIComponent(`${cct}|${grupoDecoded}`)}`}
           className="group relative card-ios min-w-0 rounded-2xl p-2 text-center text-white transition-transform outline-none"
@@ -93,10 +94,11 @@ export default async function GrupoPage({
         />
       </section>
 
-      <section className="min-h-0 flex-1 overflow-auto">
+      <section className="min-w-0 shrink-0">
         <h2 className="mb-2 text-xs font-semibold">Alumnos</h2>
         <TablaAlumnos alumnos={grupoData.alumnos} />
       </section>
+      </div>
     </div>
   );
 }

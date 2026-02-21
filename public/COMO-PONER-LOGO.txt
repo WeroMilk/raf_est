@@ -1,4 +1,0 @@
-Logo en uso: Logtipo_EscudoColor.png (en esta carpeta public).
-
-Si quieres cambiarlo, sustituye ese archivo o edita app/components/LogoSonoraSec.tsx
-y cambia la ruta src="/Logtipo_EscudoColor.png".

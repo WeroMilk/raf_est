@@ -17,11 +17,9 @@
   --duration-normal: 250ms;
   --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
   --ease-ios: cubic-bezier(0.25, 0.1, 0.25, 1);
-  /* Desktop */
   --container-max: 1200px;
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
-  /* Altura reservada para el footer (nada debe invadirlo): móvil usa esto + safe-area */
   --nav-height: 60px;
 }
 
@@ -51,23 +49,29 @@ html {
   -webkit-text-size-adjust: 100%;
   touch-action: manipulation;
   scroll-behavior: smooth;
-  /* Fallback para navegadores que no soportan dvh */
+  height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  overflow: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
 }
 
 .app-shell {
+  height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  min-width: 0;
+  width: 100%;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -82,18 +86,17 @@ body {
 .app-main {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* Reservar espacio fijo para el footer: nada del contenido lo toca; si sobra contenido, hace scroll dentro */
   padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0));
-  padding-left: env(safe-area-inset-left, 0);
-  padding-right: env(safe-area-inset-right, 0);
+  padding-left: max(0px, env(safe-area-inset-left, 0));
+  padding-right: max(0px, env(safe-area-inset-right, 0));
 }
 
 @media (min-width: 1024px) {
   .app-main {
-    /* Reservar espacio para el footer también en desktop (nada debe quedar debajo) */
     padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
     padding-left: 24px;
     padding-right: 24px;
@@ -104,39 +107,34 @@ body {
   padding-bottom: 0;
 }
 
-/* Mini listas (3 secciones): altura fija para que cada una scrollee por separado */
 .lista-mini-por-nivel {
   min-height: 0;
-  max-height: 152px;
   overflow-y: auto !important;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Lista expandida por nivel: altura máxima para que nunca toque el footer; padding inferior para no quedar tapada por el nav */
 .lista-expandida-por-nivel {
-  max-height: min(
-    calc(100dvh - var(--nav-height) - 320px - env(safe-area-inset-bottom, 0px)),
-    70vh
-  );
   min-height: 0;
+  flex: 1;
   overflow-y: auto !important;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 0.5rem);
+  padding-bottom: 0.5rem;
 }
 
-/* Contenedor principal: siempre hace scroll si el contenido sobra, para no tocar el footer */
 .page-container {
   width: 100%;
+  min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  /* Margen inferior para que el último contenido no quede pegado al borde del área del footer */
-  padding-bottom: 1rem;
+  overflow: hidden;
+  padding: 12px;
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 @media (min-width: 1024px) {
@@ -152,7 +150,6 @@ body {
   }
 }
 
-/* Barra de navegación inferior: compacta; altura alineada con --nav-height */
 .app-nav {
   position: fixed;
   bottom: 0;
@@ -260,7 +257,6 @@ body {
   }
 }
 
-/* Quitar cuadro de foco (outline) al hacer clic en gráficas Recharts */
 .recharts-wrapper,
 .recharts-wrapper:focus,
 .recharts-wrapper:focus-visible,
@@ -277,7 +273,6 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
-/* Por si el navegador pinta un ring de foco en el contenedor de la gráfica */
 [class*="recharts"]:focus,
 [class*="recharts"]:focus-visible {
   outline: none !important;
@@ -293,7 +288,6 @@ body {
   box-shadow: none !important;
 }
 
-/* Animaciones estilo iOS */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -330,10 +324,9 @@ body {
 }
 
 .animate-stagger-in {
-  animation: scaleIn var(--duration-normal) var(--ease-ios) forwards;
+  animation: scaleIn var(--duration-normal) var(--ease-ios)   forwards;
 }
 
-/* Botones y cards estilo iPhone: feedback al tocar */
 .btn-ios {
   transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-fast), opacity var(--duration-fast);
 }
@@ -370,13 +363,23 @@ body {
   opacity: 0.95;
 }
 
-/* Selects estilo iOS */
 .select-ios {
   transition: background-color var(--duration-fast), border-color var(--duration-fast), transform var(--duration-fast);
   border-radius: 10px;
 }
 .select-ios:active {
   transform: scale(0.98);
+}
+
+button,
+a,
+[role="button"],
+.btn-ios,
+.link-ios,
+.nav-tab,
+.select-ios,
+.touch-target {
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

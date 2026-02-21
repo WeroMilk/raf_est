@@ -53,17 +53,14 @@ export default async function PorNivelPage({
   );
 
   return (
-    <div
-      className={`flex flex-col gap-1.5 p-2 pb-2 ${nivelFiltro ? "min-h-0 flex-1 overflow-hidden" : "min-h-0 flex-1 overflow-auto"}`}
-      style={!nivelFiltro ? { WebkitOverflowScrolling: "touch" } : undefined}
-    >
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 overflow-hidden p-2 pb-2">
       <header className="shrink-0">
         <BackButton
           href={nivelFiltro ? "/por-nivel" : "/"}
           label={nivelFiltro ? "Por nivel" : "Inicio"}
         />
       </header>
-      <div className={nivelFiltro ? "flex min-h-0 flex-1 flex-col overflow-hidden" : undefined}>
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <PorNivelContent
         alumnosPorNivel={alumnosPorNivel}
         escuelas={escuelas.map((e) => ({ cct: e.cct }))}

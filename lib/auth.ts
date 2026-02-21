@@ -1,20 +1,15 @@
-/**
- * Auth sencillo: solo contraseña. Sesión en cookie firmada (HMAC).
- * Funciona en Edge (middleware) y Node (API, Server Components).
- */
-
 const COOKIE_NAME = "raf_session";
 const EXPIRES_DAYS = 30;
 
 export type Session = { tipo: "super" | "escuela"; cct?: string };
 
 function getSecret(): string {
-  const s = process.env.AUTH_SECRET;
-  if (s && s.length >= 16) return s;
+  const s = (process.env.AUTH_SECRET ?? "").trim();
+  if (s.length >= 16) return s;
   if (process.env.NODE_ENV === "development") {
     return "raf-dev-secret-min-16-chars";
   }
-  throw new Error("Configura AUTH_SECRET (mínimo 16 caracteres) en .env.local");
+  throw new Error("Configura AUTH_SECRET (mínimo 16 caracteres) en Variables de entorno de Vercel.");
 }
 
 async function hmacSign(message: string, secret: string): Promise<string> {
@@ -59,7 +54,6 @@ export function getSessionCookieName(): string {
   return COOKIE_NAME;
 }
 
-/** Crea el valor de la cookie de sesión (payload firmado). */
 export async function createSessionCookie(session: Session): Promise<string> {
   const exp = Date.now() + EXPIRES_DAYS * 24 * 60 * 60 * 1000;
   const payload = JSON.stringify({
@@ -72,7 +66,6 @@ export async function createSessionCookie(session: Session): Promise<string> {
   return `${encoded}.${sig}`;
 }
 
-/** Parsea y verifica la cookie de sesión. Devuelve null si no hay cookie o es inválida. */
 export async function getSessionFromCookie(cookieHeader: string | null): Promise<Session | null> {
   if (!cookieHeader) return null;
   try {
@@ -96,14 +89,12 @@ export async function getSessionFromCookie(cookieHeader: string | null): Promise
   }
 }
 
-/** Obtiene el valor de la cookie raf_session de un string de cabecera Cookie. */
 export function getCookieValue(cookieHeader: string | null): string | null {
   if (!cookieHeader) return null;
   const match = cookieHeader.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
   return match?.[1]?.trim() ?? null;
 }
 
-/** Para usar en Server Components: pasar el valor de la cookie o el header Cookie. */
 export async function getSession(cookieHeaderOrValue: string | null): Promise<Session | null> {
   if (!cookieHeaderOrValue) return null;
   const isFullHeader = cookieHeaderOrValue.includes("=") && !cookieHeaderOrValue.startsWith(".");

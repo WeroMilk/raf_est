@@ -1,4 +1,3 @@
-/** Niveles RAF (igual que MARTA.PY) */
 export type NivelRAF = "REQUIERE APOYO" | "EN DESARROLLO" | "ESPERADO";
 
 export const NIVELES: NivelRAF[] = [
@@ -7,7 +6,6 @@ export const NIVELES: NivelRAF[] = [
   "ESPERADO",
 ];
 
-/** Colores vivos para niveles (dashboard, gráficas, tags) */
 export const COLORS = {
   requiereApoyo: "#D32F2F",
   enDesarrollo: "#F9A825",
@@ -21,28 +19,38 @@ export const NIVEL_COLOR: Record<NivelRAF, string> = {
   ESPERADO: COLORS.esperado,
 };
 
-/** Alumno con porcentaje y nivel calculados */
 export interface AlumnoRAF {
   nombre: string;
   apellido: string;
   grupo: string;
   porcentaje: number;
   nivel: NivelRAF;
-  respuestas: string[]; // R1..R12: 'C', 'I', '-'
+  respuestas: string[];
 }
 
-/** Resumen por grupo */
 export interface GrupoResumen {
   nombre: string;
   alumnos: AlumnoRAF[];
-  porcentajesReactivos: number[]; // 12
+  porcentajesReactivos: number[];
   requiereApoyo: number;
   enDesarrollo: number;
   esperado: number;
   total: number;
 }
 
-/** Resumen por escuela (CCT) */
+/** Datos opcionales del Buscador de Escuelas en Línea (SEP) para personalizar la ficha */
+export interface EscuelaInfoBuscador {
+  nombre?: string;
+  turno?: string;
+  nivelEducativo?: string;
+  zona?: string;
+  domicilio?: string;
+  telefono?: string;
+  colonia?: string;
+  localidad?: string;
+  municipio?: string;
+}
+
 export interface EscuelaResumen {
   cct: string;
   totalEstudiantes: number;
@@ -51,10 +59,11 @@ export interface EscuelaResumen {
   enDesarrollo: number;
   esperado: number;
   grupos: GrupoResumen[];
+  /** Datos del Buscador de Escuelas (nombre, domicilio, etc.) si se fusionaron */
+  buscador?: EscuelaInfoBuscador;
 }
 
-/** Estructura global generada por el script */
 export interface ResultadosRAF {
   escuelas: EscuelaResumen[];
-  generado: string; // ISO date
+  generado: string;
 }

@@ -62,7 +62,7 @@ export default function TablaAlumnos({ alumnos }: Props) {
   });
 
   return (
-    <div className="min-h-0 min-w-0 overflow-auto rounded-2xl border border-border bg-card max-h-[160px] shadow-sm sm:max-h-[200px] md:max-h-[280px]">
+    <div className="min-h-0 min-w-0 max-w-full overflow-auto rounded-2xl border border-border bg-card max-h-[200px] shadow-sm" style={{ WebkitOverflowScrolling: "touch" }}>
       <div className="sticky top-0 border-b border-border bg-card p-2">
         <input
           type="search"

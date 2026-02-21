@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-/** Oculta en consola mensajes ruidosos en desarrollo: React DevTools, HMR, preload CSS. */
 export default function SuppressNoisyLogs() {
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;

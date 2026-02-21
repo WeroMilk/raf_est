@@ -1,6 +1,5 @@
 import type { NivelRAF } from "@/types/raf";
 
-/** Normaliza grupo como en MARTA.PY: M1A → 1AM, V1B → 1BV */
 export function normalizarGrupo(grupo: unknown): string {
   if (grupo == null || grupo === "") return "S/G";
   const s = String(grupo).toUpperCase();
@@ -11,7 +10,6 @@ export function normalizarGrupo(grupo: unknown): string {
   return s.slice(0, 10);
 }
 
-/** Nivel según porcentaje (igual que MARTA.PY) */
 export function obtenerNivel(porcentaje: number | null | undefined): NivelRAF {
   if (porcentaje == null) return "REQUIERE APOYO";
   if (porcentaje <= 50) return "REQUIERE APOYO";
@@ -19,7 +17,6 @@ export function obtenerNivel(porcentaje: number | null | undefined): NivelRAF {
   return "ESPERADO";
 }
 
-/** Calcula porcentaje de aciertos por alumno (lógica MARTA.PY) */
 export function calcularPorcentajeEstudiante(row: Record<string, unknown>): number {
   let aciertos = 0;
   let total = 0;
@@ -41,7 +38,6 @@ export function calcularPorcentajeEstudiante(row: Record<string, unknown>): numb
   return Math.round((aciertos / total) * 1000) / 10;
 }
 
-/** Respuesta por reactivo: 'C', 'I' o '-' */
 export function respuestaEstudiante(row: Record<string, unknown>, reactivo: number): string {
   const m = row[`Mark${reactivo}`];
   if (m != null && String(m).trim()) return String(m).trim();

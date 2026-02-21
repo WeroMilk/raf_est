@@ -3397,7 +3397,18 @@
           "esperado": 1,
           "total": 18
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "PROF. CARLOS ESPINOZA MUÃOZ",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "005",
+        "domicilio": "JUSTO SIERRA SN",
+        "telefono": "01662 2141555",
+        "colonia": "CONSTITUCION",
+        "localidad": "HERMOSILLO",
+        "municipio": "HERMOSILLO"
+      }
     },
     {
       "cct": "26DST0005L",
@@ -7023,7 +7034,18 @@
           "esperado": 7,
           "total": 23
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "TOMAS VALDEZ VILLEGAS",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "001",
+        "domicilio": "RODOLFO CAMPODONICO NUM. 501",
+        "telefono": "01642 4220453",
+        "colonia": "JUAREZ",
+        "localidad": "NAVOJOA",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0006K",
@@ -12215,7 +12237,18 @@
           "esperado": 0,
           "total": 17
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "MANUEL ORTIZ PAREDES",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "010",
+        "domicilio": "LUIS ENCINAS JHONSON SN",
+        "telefono": "01662 2131920",
+        "colonia": "COLOSO BAJO",
+        "localidad": "HERMOSILLO",
+        "municipio": "HERMOSILLO"
+      }
     },
     {
       "cct": "26DST0010X",
@@ -13760,7 +13793,18 @@
           "esperado": 0,
           "total": 14
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "GUADALUPE ELIZABETH VELARDE COTA",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "009",
+        "domicilio": "HERMOSILLO SN",
+        "telefono": "01647 4269203",
+        "colonia": "LOS JURIS",
+        "localidad": "HUATABAMPO",
+        "municipio": "HUATABAMPO"
+      }
     },
     {
       "cct": "26DST0011W",
@@ -15597,7 +15641,17 @@
           "esperado": 2,
           "total": 24
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 11",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "007",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01637 3710212",
+        "localidad": "PITIQUITO",
+        "municipio": "PITIQUITO"
+      }
     },
     {
       "cct": "26DST0012V",
@@ -17579,7 +17633,17 @@
           "esperado": 1,
           "total": 27
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 12",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "008",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01653 8491315",
+        "localidad": "ISLITA",
+        "municipio": "SAN LUIS RIO COLORADO"
+      }
     },
     {
       "cct": "26DST0019O",
@@ -17919,7 +17983,18 @@
           "esperado": 1,
           "total": 14
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 19",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "004",
+        "domicilio": "CET DEL MAR SN",
+        "telefono": "01622 2217170",
+        "colonia": "LAS PLAYITAS 1",
+        "localidad": "HEROICA GUAYMAS",
+        "municipio": "GUAYMAS"
+      }
     },
     {
       "cct": "26DST0020D",
@@ -22286,7 +22361,18 @@
           "esperado": 0,
           "total": 20
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "DIONICIO BRISEÃO RODRIGUEZ",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "018",
+        "domicilio": "LUIS ENCINAS JOHNSON SN",
+        "telefono": "01638 3832169",
+        "colonia": "BRISAS DEL MAR",
+        "localidad": "PUERTO PEÃASCO",
+        "municipio": "PUERTO PEÃASCO"
+      }
     },
     {
       "cct": "26DST0022B",
@@ -25849,7 +25935,17 @@
           "esperado": 0,
           "total": 31
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "EMILIO MELGOZA SOLORIO",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "003",
+        "domicilio": "20 DE NOVIEMBRE SN",
+        "telefono": "01644 4420930",
+        "localidad": "MARTE R. GOMEZ (TOBARITO)",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0023A",
@@ -28106,7 +28202,17 @@
           "esperado": 0,
           "total": 28
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 23",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "017",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01622",
+        "localidad": "POTAM",
+        "municipio": "GUAYMAS"
+      }
     },
     {
       "cct": "26DST0024Z",
@@ -29458,7 +29564,17 @@
           "esperado": 2,
           "total": 20
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "LORENZO LOPEZ BALMACEDA",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "003",
+        "domicilio": "1400 (LAZARO CARDENAS DEL RIO) SN",
+        "telefono": "01643",
+        "localidad": "QUETCHEHUECA",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0025Z",
@@ -30579,7 +30695,18 @@
           "esperado": 2,
           "total": 20
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "GUADALUPE ARGUELLES OBREGON",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "001",
+        "domicilio": "REVOLUCION NUM. 5",
+        "telefono": "01647",
+        "colonia": "BACAME NUEVO",
+        "localidad": "BACAME NUEVO",
+        "municipio": "ETCHOJOA"
+      }
     },
     {
       "cct": "26DST0026Y",
@@ -32038,7 +32165,18 @@
           "esperado": 0,
           "total": 1
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "EMIGDIO LOPEZ PEREZ",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "017",
+        "domicilio": "IGNACIO ALDAMA SN",
+        "telefono": "01644 4330318",
+        "colonia": "ROSARIO OSUNA",
+        "localidad": "BACUM",
+        "municipio": "BACUM"
+      }
     },
     {
       "cct": "26DST0027X",
@@ -32653,7 +32791,17 @@
           "esperado": 0,
           "total": 9
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 27",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "012",
+        "domicilio": "DOMICILIO CONOCIDO SN",
+        "telefono": "01647",
+        "localidad": "SAN BERNARDO",
+        "municipio": "ALAMOS"
+      }
     },
     {
       "cct": "26DST0028W",
@@ -35439,7 +35587,17 @@
           "esperado": 0,
           "total": 8
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "IGNACIO OSUNA OSUNA",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "017",
+        "domicilio": "SEVERIANO PUERTAS QUINTERO SN",
+        "telefono": "01622 4380100",
+        "localidad": "VICAM (SWITCH)",
+        "municipio": "GUAYMAS"
+      }
     },
     {
       "cct": "26DST0042P",
@@ -37001,7 +37159,17 @@
           "esperado": 0,
           "total": 26
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "CESAR ZEPEDA GARCIA",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "008",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01653 5155048",
+        "localidad": "NUEVO MICHOACAN (ESTACION RIITO)",
+        "municipio": "SAN LUIS RIO COLORADO"
+      }
     },
     {
       "cct": "26DST0048J",
@@ -39638,7 +39806,17 @@
           "esperado": 0,
           "total": 22
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 48",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "011",
+        "domicilio": "FRANCISCO SARABIA SN",
+        "telefono": "01644 4370925",
+        "localidad": "PUEBLO YAQUI",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0051X",
@@ -40780,7 +40958,17 @@
           "esperado": 0,
           "total": 2
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 51",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "012",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01642",
+        "localidad": "TIERRA BLANCA",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0053V",
@@ -42831,7 +43019,17 @@
           "esperado": 0,
           "total": 2
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "MARIA MAGDALENA SPINDOLA GARCIA",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "017",
+        "domicilio": "BASE Y/O LUIS DONALDO COLOSIO MURRIETA SN",
+        "telefono": "01644 4185001",
+        "localidad": "PROVIDENCIA",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0054U",
@@ -43656,7 +43854,17 @@
           "esperado": 0,
           "total": 19
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 54",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "012",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01642",
+        "localidad": "BACABACHI",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0055T",
@@ -47055,7 +47263,18 @@
           "esperado": 0,
           "total": 7
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "BASSELL IBARRA VILLEGAS",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "001",
+        "domicilio": "MARIANO MATAMOROS NUM. 2002",
+        "telefono": "01642 1201548",
+        "colonia": "CONSTITUCION",
+        "localidad": "NAVOJOA",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0056S",
@@ -56105,7 +56324,18 @@
           "esperado": 7,
           "total": 126
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "JOSE LUIS OSUNA VILLA",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "011",
+        "domicilio": "VALLE DE KARI NUM. 1439",
+        "telefono": "01644 1699140",
+        "colonia": "MIRAVALLE",
+        "localidad": "CIUDAD OBREGON",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0060E",
@@ -62368,7 +62598,18 @@
           "esperado": 1,
           "total": 25
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "EDUARDO PEÃA IBARRA",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "010",
+        "domicilio": "TONATIUH SN",
+        "telefono": "01662 2501080",
+        "colonia": "CUAUHTEMOC",
+        "localidad": "HERMOSILLO",
+        "municipio": "HERMOSILLO"
+      }
     },
     {
       "cct": "26DST0061D",
@@ -63470,7 +63711,17 @@
           "esperado": 1,
           "total": 1
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 61",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "012",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01642",
+        "localidad": "MASIACA",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0065Z",
@@ -64337,7 +64588,17 @@
           "esperado": 0,
           "total": 20
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "EUFROSINA PITSAKIS RUIZ",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "003",
+        "domicilio": "16 DE SEPTIEMBRE SN",
+        "telefono": "01644",
+        "localidad": "ALLENDE (EL DIECIOCHO)",
+        "municipio": "CAJEME"
+      }
     },
     {
       "cct": "26DST0067Y",
@@ -67289,7 +67550,18 @@
           "esperado": 1,
           "total": 27
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 67",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "012",
+        "domicilio": "V SN",
+        "telefono": "01642 1547151",
+        "colonia": "TEPEYAC",
+        "localidad": "NAVOJOA",
+        "municipio": "NAVOJOA"
+      }
     },
     {
       "cct": "26DST0071K",
@@ -74917,7 +75189,18 @@
           "esperado": 1,
           "total": 26
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "GUADALUPE RODRIGUEZ MARIN",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "004",
+        "domicilio": "MAR DEL NORTE SN",
+        "telefono": "01622 6907918",
+        "colonia": "SAN GERMAN",
+        "localidad": "HEROICA GUAYMAS",
+        "municipio": "GUAYMAS"
+      }
     },
     {
       "cct": "26DST0073I",
@@ -78568,7 +78851,18 @@
           "esperado": 0,
           "total": 17
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "JORGE HUMBERTO CHAVEZ FUENTES",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "014",
+        "domicilio": "AVENIDA DE LOS NOGALES SN",
+        "telefono": "01631 3144732",
+        "colonia": "COLINAS DEL YAQUI",
+        "localidad": "HEROICA NOGALES",
+        "municipio": "NOGALES"
+      }
     },
     {
       "cct": "26DST0074H",
@@ -87399,7 +87693,18 @@
           "esperado": 2,
           "total": 29
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ROBERTO TOPETE GARCIA",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "015",
+        "domicilio": "NINGUNO SN",
+        "telefono": "01662 1353231",
+        "colonia": "PUERTA REAL RESIDENCIAL",
+        "localidad": "HERMOSILLO",
+        "municipio": "HERMOSILLO"
+      }
     },
     {
       "cct": "26DST0076F",
@@ -92062,7 +92367,18 @@
           "esperado": 0,
           "total": 37
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "JOSE RAMON SALCEDO ENRIQUEZ",
+        "turno": "VESPERTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "014",
+        "domicilio": "SAN MARIO SN",
+        "telefono": "01631 2096299",
+        "colonia": "SAN CARLOS I ETAPA",
+        "localidad": "HEROICA NOGALES",
+        "municipio": "NOGALES"
+      }
     },
     {
       "cct": "26DST0078D",
@@ -95098,7 +95414,17 @@
           "esperado": 0,
           "total": 28
         }
-      ]
+      ],
+      "buscador": {
+        "nombre": "ESCUELA SECUNDARIA TECNICA NUM. 78",
+        "turno": "MATUTINO",
+        "nivelEducativo": "SECUNDARIA TECNICA",
+        "zona": "015",
+        "domicilio": "AVENIDA CUATRO SN",
+        "telefono": "01662",
+        "localidad": "MIGUEL ALEMAN (LA DOCE)",
+        "municipio": "HERMOSILLO"
+      }
     }
   ],
   "generado": "2026-02-21T20:34:02.421Z"

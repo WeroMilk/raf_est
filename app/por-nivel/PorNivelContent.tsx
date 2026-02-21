@@ -20,11 +20,8 @@ interface Props {
   alumnosPorNivel: Record<NivelRAF, RowNivel[]>;
   escuelas: { cct: string }[];
   gruposOptions: GrupoOption[];
-  /** Si viene del dashboard, mostrar solo este nivel */
   nivelFiltro?: NivelRAF | null;
-  /** Si es usuario de una escuela, solo ver su CCT (sin selector) */
   soloCct?: string;
-  /** Valor "cct|grupo" para abrir con este grupo preseleccionado (ej. desde página de grupo) */
   initialGrupo?: string;
 }
 
@@ -83,15 +80,12 @@ export default function PorNivelContent({
     return out;
   }, [alumnosPorNivel, viewMode, selectedCct, selectedGrupo, sortOrder]);
 
-  /** Expandir una sección (clic): null = ver las 3; un nivel = solo esa, más grande y scrolleable */
   const [expandedNivel, setExpandedNivel] = useState<NivelRAF | null>(nivelFiltro);
   useEffect(() => {
     setExpandedNivel(nivelFiltro);
   }, [nivelFiltro]);
-  /** Qué niveles mostrar: si hay expandido (por clic o URL), solo ese; si no, los 3 */
   const nivelesAMostrar = expandedNivel ? [expandedNivel] : NIVELES;
   const usarListaReducida = !expandedNivel;
-  const maxRowsReducida = 4;
 
   const handleVerLos3 = () => {
     setExpandedNivel(null);
@@ -99,7 +93,7 @@ export default function PorNivelContent({
   };
 
   return (
-    <div className={`flex flex-col gap-2 p-2 pb-2 animate-fade-in ${expandedNivel ? "min-h-0 flex-1" : ""}`}>
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2 p-2 pb-2 animate-fade-in overflow-hidden">
       <header className="shrink-0">
         <h1 className="text-base font-bold">
           {expandedNivel
@@ -189,8 +183,8 @@ export default function PorNivelContent({
       </section>
 
       <div
-        className={`flex gap-1.5 ${expandedNivel ? "min-h-0 flex-1 flex-col overflow-hidden" : "flex-col pb-28"}`}
-        style={expandedNivel ? { minHeight: 0 } : undefined}
+        className={`flex flex-col gap-1.5 ${expandedNivel ? "min-h-0 flex-1 overflow-hidden" : "min-h-0 flex-1 overflow-y-auto pb-10"}`}
+        style={{ WebkitOverflowScrolling: "touch", ...(expandedNivel ? {} : { minHeight: 0 }) }}
       >
         {nivelesAMostrar.map((nivel) => {
           const alumnos = dataPorNivel[nivel];
@@ -206,9 +200,7 @@ export default function PorNivelContent({
             <section
               key={nivel}
               className={`card-ios flex flex-col rounded-xl border border-border bg-card p-2 overflow-hidden ${
-                isExpanded
-                  ? "min-h-0 flex-1"
-                  : "h-[200px] shrink-0 flex-none"
+                isExpanded ? "min-h-0 flex-1" : "h-[175px] shrink-0 flex-none"
               }`}
               style={isExpanded ? { minHeight: 0 } : undefined}
               {...(!isExpanded && {
@@ -239,8 +231,8 @@ export default function PorNivelContent({
               >
                 <TablaAlumnosNivel
                   alumnosConCct={alumnos}
-                  maxRows={usarListaReducida ? maxRowsReducida : undefined}
-                  verTodosHref={usarListaReducida ? undefined : undefined}
+                  maxRows={undefined}
+                  verTodosHref={undefined}
                 />
               </div>
             </section>

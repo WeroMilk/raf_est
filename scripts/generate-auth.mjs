@@ -1,9 +1,3 @@
-/**
- * Genera lib/auth-data.json con hashes de contraseñas y lib/passwords-inicial.txt con las contraseñas en claro.
- * Ejecutar: node scripts/generate-auth.mjs
- * Las contraseñas se imprimen también en consola. Guarda passwords-inicial.txt y luego bórralo o no lo subas a git.
- */
-
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
@@ -12,6 +6,13 @@ const ROOT = path.join(process.cwd());
 const DATA_PATH = path.join(ROOT, "public", "data", "resultados.json");
 const AUTH_DATA_PATH = path.join(ROOT, "lib", "auth-data.json");
 const PASSWORDS_PATH = path.join(ROOT, "lib", "passwords-inicial.txt");
+
+function normalizePassword(text) {
+  return String(text || "")
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "");
+}
 
 function sha256(text) {
   return crypto.createHash("sha256").update(text, "utf8").digest("hex");
@@ -29,7 +30,7 @@ const { escuelas } = JSON.parse(raw);
 const ccts = escuelas.map((e) => e.cct);
 
 const superPassword = randomPassword(14);
-const superHash = sha256(superPassword);
+const superHash = sha256(normalizePassword(superPassword));
 
 const escuelasAuth = {};
 const passwordsList = [];
@@ -37,7 +38,7 @@ const lines = ["=== CONTRASEÑAS RAF (guarda este archivo y no lo subas a git) =
 
 for (const cct of ccts) {
   const pwd = randomPassword(12);
-  escuelasAuth[cct] = sha256(pwd);
+  escuelasAuth[cct] = sha256(normalizePassword(pwd));
   lines.push(`${cct}\t${pwd}`);
   passwordsList.push({ cct, pwd });
 }

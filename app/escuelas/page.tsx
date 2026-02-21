@@ -6,7 +6,7 @@ export default function EscuelasPage() {
   const escuelas = getEscuelasSync();
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-auto p-2 pb-2">
+    <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-hidden p-2">
       <header className="shrink-0">
         <BackButton href="/" label="Inicio" />
         <h1 className="mt-1 text-base font-bold">Por escuela</h1>
@@ -16,7 +16,9 @@ export default function EscuelasPage() {
       {escuelas.length === 0 ? (
         <p className="text-xs text-foreground/60">No hay escuelas cargadas.</p>
       ) : (
-        <EscuelasContent escuelas={escuelas} />
+        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: "touch" }}>
+          <EscuelasContent escuelas={escuelas} />
+        </div>
       )}
     </div>
   );

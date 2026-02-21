@@ -25,9 +25,8 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
   const pctEsp = total ? Math.round((escuela.esperado / total) * 100) : 0;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-auto p-2 pb-2 lg:gap-6 lg:p-0 lg:pb-4">
+    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden p-2 min-w-0 lg:gap-6 lg:p-0 lg:pb-8">
       <header className="shrink-0">
-        {/* Móvil: Salir y logo en la misma fila a la misma altura. Desktop: igual, título debajo */}
         <div className="flex items-center justify-between gap-2">
           <div className="flex min-w-0 flex-wrap items-center gap-2">
             {isSuper && <BackButton href="/escuelas" label="Escuelas" />}
@@ -38,11 +37,27 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
             <LogoSonoraSec maxWidth={130} className="sm:hidden" />
           </div>
         </div>
-        <h1 className="mt-1 text-base font-bold lg:text-xl lg:tracking-tight">{escuela.cct}</h1>
-        <p className="text-xs text-foreground/80 lg:text-sm">{escuela.totalEstudiantes} alumnos · {escuela.grupos.length} grupos</p>
+        <h1 className="mt-1 text-base font-bold lg:text-xl lg:tracking-tight">
+          {escuela.buscador?.nombre ?? escuela.cct}
+        </h1>
+        <p className="text-xs text-foreground/80 lg:text-sm">
+          {escuela.cct}
+          {escuela.buscador?.localidad || escuela.buscador?.municipio
+            ? ` · ${[escuela.buscador.localidad, escuela.buscador.municipio].filter(Boolean).join(", ")}`
+            : ""}
+        </p>
+        <p className="text-xs text-foreground/70 lg:text-sm">
+          {escuela.totalEstudiantes} alumnos · {escuela.grupos.length} grupos
+          {escuela.buscador?.turno ? ` · ${escuela.buscador.turno}` : ""}
+        </p>
+        {(escuela.buscador?.domicilio || escuela.buscador?.telefono) && (
+          <p className="mt-0.5 text-[11px] text-foreground/60 lg:text-xs">
+            {[escuela.buscador.domicilio, escuela.buscador.telefono].filter(Boolean).join(" · ")}
+          </p>
+        )}
       </header>
 
-      <section className="grid min-w-0 grid-cols-3 gap-2 lg:gap-4">
+      <section className="grid min-w-0 grid-cols-3 gap-2 lg:gap-4 shrink-0">
         <Link
           href="/por-nivel?nivel=REQUIERE_APOYO"
           className="link-ios group relative card-ios min-w-0 rounded-2xl p-2 text-center text-white transition-transform outline-none lg:p-4"
@@ -99,9 +114,9 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
         </section>
       </section>
 
-      <section className="min-h-0 flex-1 overflow-auto pb-24 lg:pb-4">
-        <h2 className="mb-2 text-xs font-semibold lg:text-sm lg:mb-3">Grupos</h2>
-        <ul className="grid grid-cols-2 gap-2 overflow-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 content-start lg:gap-3">
+      <section className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden min-w-0 pb-8" style={{ WebkitOverflowScrolling: "touch" }}>
+        <h2 className="mb-2 text-xs font-semibold lg:text-sm lg:mb-3 shrink-0">Grupos</h2>
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 content-start lg:gap-3">
           {escuela.grupos.map((g) => (
             <li key={g.nombre} className="min-w-0">
               <Link

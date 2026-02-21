@@ -14,7 +14,6 @@ function getColor(value: number) {
 interface Props {
   porcentajes: number[];
   title?: string;
-  /** Total de alumnos para mostrar en el tooltip cuántos acertaron cada reactivo */
   totalAlumnos?: number;
 }
 
