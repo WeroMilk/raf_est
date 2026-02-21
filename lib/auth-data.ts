@@ -4,9 +4,17 @@ import * as path from "path";
 
 type AuthData = { superUsuario: string; escuelas: Record<string, string> };
 
+function trimEnv(value: string | undefined): string {
+  const s = (value ?? "").trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    return s.slice(1, -1).trim();
+  }
+  return s;
+}
+
 function load(): AuthData {
-  // En producción puedes definir AUTH_SUPER_HASH con el hash SHA-256 del super usuario si el archivo no se lee bien
-  const envSuperHash = process.env.AUTH_SUPER_HASH?.trim() ?? "";
+  // En producción (Vercel) define AUTH_SUPER_HASH o AUTH_SUPER_PASSWORD si el archivo no se lee
+  const envSuperHash = trimEnv(process.env.AUTH_SUPER_HASH) || "";
   const filePath = path.join(process.cwd(), "lib", "auth-data.json");
   try {
     let raw = fs.readFileSync(filePath, "utf8");
@@ -50,7 +58,7 @@ function normalizePasswordForVerify(password: string): string {
 export function verifyPassword(password: string): { tipo: "super" | "escuela"; cct?: string } | null {
   const normalized = normalizePasswordForVerify(password);
   if (!normalized) return null;
-  const envSuperPassword = process.env.AUTH_SUPER_PASSWORD?.trim();
+  const envSuperPassword = trimEnv(process.env.AUTH_SUPER_PASSWORD);
   if (envSuperPassword && normalized === normalizePasswordForVerify(envSuperPassword)) {
     return { tipo: "super" };
   }

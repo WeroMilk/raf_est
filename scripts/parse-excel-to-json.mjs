@@ -20,13 +20,35 @@ function fixUtf8Mojibake(str) {
   }
 }
 
+const LETRA_GRUPO = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 function normalizarGrupo(grupo) {
   if (grupo == null || grupo === "") return "S/G";
-  const s = String(grupo).toUpperCase();
+  const s = String(grupo).toUpperCase().trim();
+  // Ya en formato 1AM, 2BV, etc.
+  if (/^[1-3][A-Z][MV]$/.test(s)) return s;
+  // M1A, M1B, ... / V1A, V1B, ...
   const m = s.match(/M1([A-H])/);
   if (m) return `1${m[1]}M`;
   const v = s.match(/V1([A-H])/);
   if (v) return `1${v[1]}V`;
+  // Z11EST56V1, Z14EST76V1 → grado 1º dígito, grupo 2º dígito (1→A, 2→B...), M|V al final
+  const zNum = s.match(/^Z(\d)(\d)EST[\d]*(M|V)\d*$/);
+  if (zNum) {
+    const grado = zNum[1];
+    const numGrupo = parseInt(zNum[2], 10);
+    const turno = zNum[3];
+    const letra = LETRA_GRUPO[numGrupo - 1] || LETRA_GRUPO[0];
+    return `${grado}${letra}${turno}`;
+  }
+  // Z4EST71V1I, Z4EST71V1J, ... → (M|V)(grado)(letra) al final
+  const zLetra = s.match(/^Z\d+EST[\d]*(M|V)(\d)([A-Z])$/);
+  if (zLetra) {
+    const turno = zLetra[1];
+    const grado = zLetra[2];
+    const letra = zLetra[3];
+    return `${grado}${letra}${turno}`;
+  }
   return s.slice(0, 10);
 }
 

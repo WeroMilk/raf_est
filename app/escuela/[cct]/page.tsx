@@ -49,7 +49,6 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
         </p>
         <p className="text-xs text-foreground/70 lg:text-sm">
           {escuela.totalEstudiantes} alumnos · {escuela.grupos.length} grupos
-          {escuela.buscador?.turno ? ` · ${escuela.buscador.turno}` : ""}
         </p>
         {(escuela.buscador?.domicilio || escuela.buscador?.telefono) && (
           <p className="mt-0.5 text-[11px] text-foreground/60 lg:text-xs">

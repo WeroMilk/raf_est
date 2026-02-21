@@ -3,13 +3,26 @@ const EXPIRES_DAYS = 30;
 
 export type Session = { tipo: "super" | "escuela"; cct?: string };
 
+function trimSecret(value: string | undefined): string {
+  const s = (value ?? "").trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    return s.slice(1, -1).trim();
+  }
+  return s;
+}
+
 function getSecret(): string {
-  const s = (process.env.AUTH_SECRET ?? "").trim();
+  const s = trimSecret(process.env.AUTH_SECRET);
   if (s.length >= 16) return s;
   if (process.env.NODE_ENV === "development") {
     return "raf-dev-secret-min-16-chars";
   }
   throw new Error("Configura AUTH_SECRET (mínimo 16 caracteres) en Variables de entorno de Vercel.");
+}
+
+export function hasValidAuthSecret(): boolean {
+  const s = trimSecret(process.env.AUTH_SECRET);
+  return s.length >= 16;
 }
 
 async function hmacSign(message: string, secret: string): Promise<string> {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyPassword } from "@/lib/auth-data";
-import { createSessionCookie, getSessionCookieName } from "@/lib/auth";
+import { createSessionCookie, getSessionCookieName, hasValidAuthSecret } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
@@ -31,12 +31,6 @@ function wantsJson(request: Request): boolean {
   return (request.headers.get("accept") ?? "").includes("application/json");
 }
 
-function checkAuthSecret(): string | null {
-  const s = (process.env.AUTH_SECRET ?? "").trim();
-  if (s.length >= 16) return null;
-  return "AUTH_SECRET";
-}
-
 function setSessionCookie(res: NextResponse, value: string) {
   res.cookies.set(getSessionCookieName(), value, {
     httpOnly: true,
@@ -52,8 +46,7 @@ export async function POST(request: Request) {
   const baseUrl = new URL(request.url).origin;
 
   try {
-    const secretError = checkAuthSecret();
-    if (secretError) {
+    if (!hasValidAuthSecret()) {
       if (json) {
         return NextResponse.json(
           { ok: false, error: "auth_secret_required" },
