@@ -107,7 +107,7 @@ export default function HomePage() {
               </Link>
             </section>
 
-            <section className="grid shrink-0 gap-3 lg:grid-cols-2 lg:gap-6">
+            <section className="grid shrink-0 gap-3 pt-5 lg:grid-cols-2 lg:gap-6 lg:pt-6">
               <section className="card-ios rounded-2xl border border-border bg-card p-3 lg:p-5">
                 <ChartBarrasReactivos
                   porcentajes={porcentajesGlobales}
