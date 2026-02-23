@@ -8,7 +8,7 @@ function normalizePassword(s: string): string {
   return String(s ?? "")
     .trim()
     .replace(/\s+/g, "")
-    .replace(/[\u200B-\u200D\uFEFF]/g, "");
+    .replace(/[\u200B-\u200D\uFEFF\u00A0]/g, "");
 }
 
 function getPasswordFromRequest(request: Request): Promise<string> {

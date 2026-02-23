@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex min-h-dvh w-full max-w-full flex-col items-center justify-center px-6 py-8"
+      className="flex min-h-dvh w-full max-w-full flex-col items-center justify-start px-6 py-8"
       style={{
         paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
         paddingRight: "max(1.5rem, env(safe-area-inset-right))",
@@ -36,12 +36,12 @@ export default function LoginPage() {
         paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
       }}
     >
-      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-10 text-center">
-        <div className="flex justify-center">
-          <LogoSonoraSec maxWidth={200} priority />
+      <div className="mx-auto flex w-full max-w-sm flex-1 flex-col items-center gap-8 text-center">
+        <div className="flex justify-center pt-2 ml-6">
+          <LogoSonoraSec maxWidth={420} priority />
         </div>
-        <div className="flex flex-col gap-2">
-          <h1 className="text-lg font-bold text-foreground">RAF Matemáticas</h1>
+        <div className="mt-12 flex flex-col gap-2">
+          <h1 className="text-xl font-bold tracking-tight text-foreground">RAF Matemáticas</h1>
           <p className="text-sm text-foreground/70">Ingresa la contraseña de tu E.S.T.</p>
         </div>
         <form
@@ -53,7 +53,7 @@ export default function LoginPage() {
             const form = e.currentTarget;
             const input = form.querySelector<HTMLInputElement>('input[name="password"]');
             const password = input
-              ? input.value.trim().replace(/\s+/g, "").replace(/[\u200B-\u200D\uFEFF]/g, "")
+              ? input.value.trim().replace(/\s+/g, "").replace(/[\u200B-\u200D\uFEFF\u00A0]/g, "")
               : "";
             if (!password) {
               setError(ERROR_MESSAGES.empty);

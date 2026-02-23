@@ -110,7 +110,9 @@ export function getCookieValue(cookieHeader: string | null): string | null {
 
 export async function getSession(cookieHeaderOrValue: string | null): Promise<Session | null> {
   if (!cookieHeaderOrValue) return null;
-  const isFullHeader = cookieHeaderOrValue.includes("=") && !cookieHeaderOrValue.startsWith(".");
-  const header = isFullHeader ? cookieHeaderOrValue : `${COOKIE_NAME}=${cookieHeaderOrValue}`;
+  // Si nos pasan solo el valor (ej. request.cookies.get("raf_session")?.value), construir header
+  const isFullCookieHeader =
+    cookieHeaderOrValue.includes(`${COOKIE_NAME}=`) && !cookieHeaderOrValue.startsWith(".");
+  const header = isFullCookieHeader ? cookieHeaderOrValue : `${COOKIE_NAME}=${cookieHeaderOrValue}`;
   return getSessionFromCookie(header);
 }

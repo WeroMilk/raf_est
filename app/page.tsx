@@ -73,7 +73,7 @@ export default function HomePage() {
               </Link>
             </section>
 
-            <section className="card-ios rounded-2xl border border-border bg-card p-3 lg:p-4">
+            <section className="card-ios my-5 rounded-2xl border border-border bg-card p-3 lg:my-6 lg:p-4">
               <p className="text-sm font-semibold lg:text-base">{totalAlumnos} Alumnos Evaluados · {escuelas.length} Escuelas Secundarias Técnicas · Primer Grado</p>
             </section>
 

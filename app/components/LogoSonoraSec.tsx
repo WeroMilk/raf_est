@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const LOGO_WRAPPER_CLASS =
-  "rounded-xl p-2 flex items-center justify-center min-h-[72px] relative";
+  "rounded-xl p-2 flex items-center justify-center min-h-[96px] relative";
 
 function LogoTextFallback() {
   return (
@@ -51,14 +51,14 @@ export default function LogoSonoraSec({
       <Image
         src="/Logtipo_EscudoColor.png"
         alt="Sonora Tierra de Oportunidades · Secretaría de Educación y Cultura"
-        width={Math.min(maxWidth, 400)}
-        height={80}
+        width={Math.min(maxWidth, 480)}
+        height={100}
         className={
           imgLoaded && !imgError
             ? "w-full h-auto object-contain opacity-100 transition-opacity duration-200"
-            : "absolute inset-0 m-auto max-h-[68px] w-auto max-w-full object-contain opacity-0 transition-opacity duration-200"
+            : "absolute inset-0 m-auto max-h-[96px] w-auto max-w-full object-contain opacity-0 transition-opacity duration-200"
         }
-        style={{ maxWidth: "100%", maxHeight: "68px" }}
+        style={{ maxWidth: "100%", maxHeight: "96px" }}
         priority={priority}
         onLoad={() => setImgLoaded(true)}
         onError={() => setImgError(true)}

@@ -20,15 +20,15 @@ function load(): AuthData {
     let raw = fs.readFileSync(filePath, "utf8");
     raw = raw.replace(/^\uFEFF/, "");
     const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const rawSuper =
-      typeof parsed["superUsuario"] === "string"
-        ? parsed["superUsuario"]
-        : typeof parsed["super"] === "string"
-          ? parsed["super"]
-          : (() => {
-              const key = Object.keys(parsed).find((k) => k.replace(/\uFEFF/g, "") === "superUsuario" || k.replace(/\uFEFF/g, "") === "super");
-              return key && typeof parsed[key] === "string" ? (parsed[key] as string) : "";
-            })();
+    const rawSuper = ((): string => {
+      const direct = parsed["superUsuario"] ?? parsed["super"];
+      if (typeof direct === "string") return direct;
+      const norm = (k: string) => k.replace(/\uFEFF/g, "").trim().toLowerCase();
+      const key = Object.keys(parsed).find(
+        (k) => norm(k) === "superusuario" || norm(k) === "super"
+      );
+      return key && typeof parsed[key] === "string" ? (parsed[key] as string) : "";
+    })();
     const fileSuperHash = typeof rawSuper === "string" ? rawSuper.trim() : "";
     const escuelas =
       parsed["escuelas"] && typeof parsed["escuelas"] === "object" && !Array.isArray(parsed["escuelas"])
@@ -52,7 +52,7 @@ function normalizePasswordForVerify(password: string): string {
   return String(password ?? "")
     .trim()
     .replace(/\s+/g, "")
-    .replace(/[\u200B-\u200D\uFEFF]/g, "");
+    .replace(/[\u200B-\u200D\uFEFF\u00A0]/g, ""); // espacios normales + no-separables + BOM
 }
 
 export function verifyPassword(password: string): { tipo: "super" | "escuela"; cct?: string } | null {
