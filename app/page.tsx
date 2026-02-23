@@ -3,6 +3,10 @@ import { getResultadosSync } from "@/lib/data-server";
 import { COLORS } from "@/types/raf";
 import LogoSonoraSec from "@/app/components/LogoSonoraSec";
 import ScrollOnlyWhenNeeded from "@/app/components/ScrollOnlyWhenNeeded";
+import ChartPastelNiveles from "@/app/components/ChartPastelNiveles";
+import ChartBarrasReactivos from "@/app/components/ChartBarrasReactivos";
+
+const NUM_REACTIVOS = 12;
 
 export default function HomePage() {
   const { escuelas, generado } = getResultadosSync();
@@ -13,6 +17,17 @@ export default function HomePage() {
   const pctReq = totalAlumnos ? Math.round((totalReq / totalAlumnos) * 100) : 0;
   const pctDes = totalAlumnos ? Math.round((totalDes / totalAlumnos) * 100) : 0;
   const pctEsp = totalAlumnos ? Math.round((totalEsp / totalAlumnos) * 100) : 0;
+
+  const porcentajesGlobales = (() => {
+    const sumas = new Array(NUM_REACTIVOS).fill(0);
+    for (const e of escuelas) {
+      const p = e.porcentajesReactivos ?? [];
+      for (let i = 0; i < NUM_REACTIVOS; i++) {
+        sumas[i] += (p[i] ?? 0) * e.totalEstudiantes;
+      }
+    }
+    return sumas.map((s) => (totalAlumnos ? Math.round((s / totalAlumnos) * 10) / 10 : 0));
+  })();
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden gap-2 animate-fade-in p-2 lg:gap-6 lg:p-0 lg:pb-8">
@@ -90,6 +105,24 @@ export default function HomePage() {
               >
                 Ver por nivel <span className="text-foreground/60">→</span>
               </Link>
+            </section>
+
+            <section className="grid shrink-0 gap-3 lg:grid-cols-2 lg:gap-6">
+              <section className="card-ios rounded-2xl border border-border bg-card p-3 lg:p-5">
+                <ChartBarrasReactivos
+                  porcentajes={porcentajesGlobales}
+                  totalAlumnos={totalAlumnos}
+                  title="Aciertos por reactivo (todas las escuelas)"
+                />
+              </section>
+              <section className="card-ios rounded-2xl border border-border bg-card p-3 lg:p-5">
+                <ChartPastelNiveles
+                  requiereApoyo={totalReq}
+                  enDesarrollo={totalDes}
+                  esperado={totalEsp}
+                  title="Por nivel (todas las escuelas)"
+                />
+              </section>
             </section>
 
             <p className="mt-1 shrink-0 text-[10px] text-foreground/50">
