@@ -30,9 +30,9 @@ export function getEscuelasSync(): EscuelaResumen[] {
 
 export function getAlumnosPorNivelSync(
   nivel: NivelRAF
-): { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number; nivel: NivelRAF }; cct: string }[] {
+): { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number | null; nivel: NivelRAF }; cct: string }[] {
   const escuelas = loadSync().escuelas;
-  const out: { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number; nivel: NivelRAF }; cct: string }[] = [];
+  const out: { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number | null; nivel: NivelRAF }; cct: string }[] = [];
   for (const esc of escuelas) {
     for (const g of esc.grupos) {
       for (const a of g.alumnos) {

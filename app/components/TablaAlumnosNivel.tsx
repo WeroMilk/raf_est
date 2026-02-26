@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { NivelRAF } from "@/types/raf";
 
 type Row = {
-  alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number; nivel: NivelRAF };
+  alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number | null; nivel: NivelRAF };
   cct: string;
 };
 
@@ -46,7 +46,9 @@ export default function TablaAlumnosNivel({ alumnosConCct, maxRows, verTodosHref
         return dir * (a.alumno.grupo < b.alumno.grupo ? -1 : a.alumno.grupo > b.alumno.grupo ? 1 : 0);
       }
       if (sortCol === "porcentaje") {
-        return dir * (a.alumno.porcentaje - b.alumno.porcentaje);
+        const pa = a.alumno.porcentaje ?? 0;
+        const pb = b.alumno.porcentaje ?? 0;
+        return dir * (pa - pb);
       }
       return dir * (a.cct < b.cct ? -1 : a.cct > b.cct ? 1 : 0);
     });
@@ -106,7 +108,7 @@ export default function TablaAlumnosNivel({ alumnosConCct, maxRows, verTodosHref
               <tr key={i} className="border-b border-border/50 transition-colors duration-150 hover:bg-[var(--fill-tertiary)]">
                 <td className="px-0.5 py-px">{r.alumno.nombre} {r.alumno.apellido}</td>
                 <td className="px-0.5 py-px">{r.alumno.grupo}</td>
-                <td className="px-0.5 py-px">{r.alumno.porcentaje}%</td>
+                <td className="px-0.5 py-px">{r.alumno.porcentaje != null ? `${r.alumno.porcentaje}%` : "—"}</td>
                 <td className="px-0.5 py-px text-foreground/70">{r.cct}</td>
               </tr>
             ))}

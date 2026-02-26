@@ -1,5 +1,23 @@
 # Despliegue en Vercel
 
+## 0. Base de datos (escuelas, grupos, alumnos)
+
+La app de **Matemáticas** comparte la misma base de escuelas, grupos y alumnos que la app de **Lenguaje** (proyecto Mtra. Rosa Isela). Para sincronizar:
+
+1. **En local** (con ambos proyectos en la misma carpeta `proyectos/`):
+   - `npm run build:data` detecta automáticamente la base de Lenguaje y fusiona.
+   - Resultado: mismas escuelas, grupos y alumnos; los resultados de Matemáticas se añaden a cada alumno.
+   - Los que no aplicaron examen de Matemáticas aparecen con porcentaje 0.
+
+2. **Sin base de Lenguaje** (ej. en Vercel):
+   - Se conserva el `resultados.json` ya generado (incluido en el repo).
+   - Haz **commit y push** de `public/data/resultados.json` tras regenerar localmente.
+
+3. **Comandos**:
+   - `npm run build:data` — Fusión automática (si existe base Lenguaje) o solo Excel Matemáticas.
+   - `npm run build:data:fusion` — Forzar fusión (requiere `BASE_LENGUAJE` o ruta por defecto).
+   - `npm run build:data:solo-matematicas` — Solo Excel de Matemáticas (sin base Lenguaje).
+
 ## 1. Favicon y logo
 
 - **Favicon**: El proyecto usa `app/icon.png` (Next.js lo sirve automáticamente). Si prefieres el de `public`, asegúrate de que `public/favicon.png` esté en el repositorio y desplegado.

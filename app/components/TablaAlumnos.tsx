@@ -24,18 +24,31 @@ const columns = [
   columnHelper.accessor("grupo", { header: "Grupo" }),
   columnHelper.accessor("porcentaje", {
     header: "%",
-    cell: (info) => `${info.getValue()}%`,
+    cell: (info) => {
+      const v = info.getValue();
+      return v != null ? `${v}%` : "—";
+    },
   }),
   columnHelper.accessor("nivel", {
     header: "Nivel",
     cell: (info) => {
       const v = info.getValue();
+      const label =
+        v === "REQUIERE APOYO"
+          ? "Apoyo"
+          : v === "EN DESARROLLO"
+            ? "Desarrollo"
+            : v === "ESPERADO"
+              ? "Esperado"
+              : v === "SIN EXAMEN"
+                ? "Sin examen"
+                : v;
       return (
         <span
           className="rounded px-2 py-0.5 text-xs font-medium text-white"
-          style={{ backgroundColor: NIVEL_COLOR[v] }}
+          style={{ backgroundColor: NIVEL_COLOR[v] ?? "#757575" }}
         >
-          {v === "REQUIERE APOYO" ? "Apoyo" : v === "EN DESARROLLO" ? "Desarrollo" : "Esperado"}
+          {label}
         </span>
       );
     },

@@ -6,7 +6,7 @@ import { getResultadosSync } from "@/lib/data-server";
 import { getAlumnosPorNivelSync } from "@/lib/data-server";
 import { getSession } from "@/lib/auth";
 import type { NivelRAF } from "@/types/raf";
-import { NIVELES } from "@/types/raf";
+import { NIVELES_CON_EXAMEN } from "@/types/raf";
 
 const PARAM_TO_NIVEL: Record<string, NivelRAF> = {
   REQUIERE_APOYO: "REQUIERE APOYO",
@@ -36,11 +36,11 @@ export default async function PorNivelPage({
     "REQUIERE APOYO": getAlumnosPorNivelSync("REQUIERE APOYO"),
     "EN DESARROLLO": getAlumnosPorNivelSync("EN DESARROLLO"),
     ESPERADO: getAlumnosPorNivelSync("ESPERADO"),
-  } as Record<NivelRAF, { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number; nivel: NivelRAF }; cct: string }[]>;
+  } as Record<"REQUIERE APOYO" | "EN DESARROLLO" | "ESPERADO", { alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number | null; nivel: NivelRAF }; cct: string }[]>;
 
   if (session?.tipo === "escuela" && session.cct) {
     escuelas = escuelas.filter((e) => e.cct === session.cct);
-    for (const nivel of NIVELES) {
+    for (const nivel of NIVELES_CON_EXAMEN) {
       alumnosPorNivel[nivel] = filterByCct(alumnosPorNivel[nivel], session.cct);
     }
   }

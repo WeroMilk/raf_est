@@ -3,11 +3,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { NivelRAF } from "@/types/raf";
-import { NIVELES, NIVEL_COLOR } from "@/types/raf";
+import { NIVELES_CON_EXAMEN, NIVEL_COLOR } from "@/types/raf";
 import TablaAlumnosNivel from "@/app/components/TablaAlumnosNivel";
 
 export type RowNivel = {
-  alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number; nivel: NivelRAF };
+  alumno: { nombre: string; apellido: string; grupo: string; porcentaje: number | null; nivel: NivelRAF };
   cct: string;
 };
 
@@ -63,17 +63,17 @@ export default function PorNivelContent({
       return true;
     };
     const sortRows = (rows: RowNivel[]) =>
-      [...rows].sort((a, b) =>
-        sortOrder === "asc"
-          ? a.alumno.porcentaje - b.alumno.porcentaje
-          : b.alumno.porcentaje - a.alumno.porcentaje
-      );
-    const out: Record<NivelRAF, RowNivel[]> = {
+      [...rows].sort((a, b) => {
+        const pa = a.alumno.porcentaje ?? 0;
+        const pb = b.alumno.porcentaje ?? 0;
+        return sortOrder === "asc" ? pa - pb : pb - pa;
+      });
+    const out: Record<"REQUIERE APOYO" | "EN DESARROLLO" | "ESPERADO", RowNivel[]> = {
       "REQUIERE APOYO": [],
       "EN DESARROLLO": [],
       ESPERADO: [],
     };
-    for (const nivel of NIVELES) {
+    for (const nivel of NIVELES_CON_EXAMEN) {
       const filtered = alumnosPorNivel[nivel].filter(filterRow);
       out[nivel] = sortRows(filtered);
     }
@@ -84,7 +84,7 @@ export default function PorNivelContent({
   useEffect(() => {
     setExpandedNivel(nivelFiltro);
   }, [nivelFiltro]);
-  const nivelesAMostrar = expandedNivel ? [expandedNivel] : NIVELES;
+  const nivelesAMostrar = expandedNivel ? [expandedNivel] : NIVELES_CON_EXAMEN;
   const usarListaReducida = !expandedNivel;
 
   const handleVerLos3 = () => {
