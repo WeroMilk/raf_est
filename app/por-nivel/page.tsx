@@ -54,7 +54,7 @@ export default async function PorNivelPage({
   );
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 overflow-hidden p-2 pb-2">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-0.5 overflow-hidden p-2 pb-2">
       <PageHeader>
         <BackButton
           href={nivelFiltro ? "/por-nivel" : "/"}

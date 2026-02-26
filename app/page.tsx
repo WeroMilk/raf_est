@@ -30,7 +30,7 @@ export default function HomePage() {
   })();
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden gap-2 animate-fade-in p-2 lg:gap-6 lg:p-0 lg:pb-8">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden gap-1 animate-fade-in p-2 lg:gap-6 lg:p-0 lg:pb-8">
       <PageHeader>
         <h1 className="text-base font-bold text-foreground lg:text-xl lg:tracking-tight">RAF Matemáticas</h1>
         <p className="text-xs text-foreground/80 lg:text-sm">Secundarias Técnicas · SEC Sonora · Hermosillo</p>

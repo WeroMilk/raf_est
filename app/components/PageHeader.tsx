@@ -21,7 +21,7 @@ export default function PageHeader({
       <div className="min-w-0 flex-1">{children}</div>
       <div className="flex shrink-0 self-start ml-auto">
         <LogoSonoraSec maxWidth={160} className="hidden sm:block" />
-        <LogoSonoraSec maxWidth={130} className="sm:hidden" />
+        <LogoSonoraSec maxWidth={130} className="sm:hidden" compact />
       </div>
     </header>
   );

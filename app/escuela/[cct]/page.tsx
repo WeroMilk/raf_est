@@ -25,12 +25,12 @@ export default async function EscuelaPage({ params }: { params: Promise<{ cct: s
   const pctEsp = total ? Math.round((escuela.esperado / total) * 100) : 0;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-2 pb-2 pt-1.5 min-w-0 lg:gap-6 lg:pt-2 lg:px-0 lg:pb-8">
+    <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden px-2 pb-2 pt-1.5 min-w-0 lg:gap-6 lg:pt-2 lg:px-0 lg:pb-8">
       <PageHeader>
         <div className="flex flex-wrap items-center gap-2">
           {isSuper && <BackButton href="/escuelas" label="Escuelas" />}
         </div>
-        <h1 className="mt-0.5 text-base font-bold lg:text-xl lg:tracking-tight">
+        <h1 className="mt-0 text-base font-bold lg:text-xl lg:tracking-tight">
           {escuela.buscador?.nombre ?? escuela.cct}
         </h1>
         <p className="text-xs text-foreground/80 lg:text-sm">

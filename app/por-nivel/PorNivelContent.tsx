@@ -93,9 +93,9 @@ export default function PorNivelContent({
   };
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2 p-2 pb-2 animate-fade-in overflow-hidden">
-      <header className="shrink-0">
-        <h1 className="text-base font-bold">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-1 p-2 pb-2 animate-fade-in overflow-hidden">
+      <header className="shrink-0 space-y-0.5">
+        <h1 className="text-base font-bold mt-0">
           {expandedNivel
             ? `Por nivel: ${expandedNivel === "REQUIERE APOYO" ? "Requieren apoyo" : expandedNivel === "EN DESARROLLO" ? "En desarrollo" : "Esperado"}`
             : "Por nivel"}
@@ -109,7 +109,7 @@ export default function PorNivelContent({
           <button
             type="button"
             onClick={handleVerLos3}
-            className="mt-0.5 text-left text-xs font-medium text-[var(--gris-iphone)] underline hover:opacity-80"
+            className="block text-left text-xs font-medium text-[var(--gris-iphone)] underline hover:opacity-80"
           >
             ← Ver los 3 niveles
           </button>

@@ -34,17 +34,23 @@ export default function LogoSonoraSec({
   className = "",
   maxWidth = 200,
   priority = false,
+  compact = false,
 }: {
   className?: string;
   maxWidth?: number;
   priority?: boolean;
+  /** Para header: reduce altura y padding (móvil) */
+  compact?: boolean;
 }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const wrapperClass = compact
+    ? "rounded-lg p-1 flex items-center justify-center min-h-[40px] relative"
+    : LOGO_WRAPPER_CLASS;
 
   return (
     <div
-      className={`${LOGO_WRAPPER_CLASS} ${className}`}
+      className={`${wrapperClass} ${className}`}
       style={{ maxWidth: `${maxWidth}px` }}
     >
       {imgError && <LogoTextFallback />}
@@ -56,9 +62,9 @@ export default function LogoSonoraSec({
         className={
           imgLoaded && !imgError
             ? "w-full h-auto object-contain opacity-100 transition-opacity duration-200"
-            : "absolute inset-0 m-auto max-h-[96px] w-auto max-w-full object-contain opacity-0 transition-opacity duration-200"
+            : `absolute inset-0 m-auto w-auto max-w-full object-contain opacity-0 transition-opacity duration-200 ${compact ? "max-h-[40px]" : "max-h-[96px]"}`
         }
-        style={{ maxWidth: "100%", maxHeight: "96px" }}
+        style={{ maxWidth: "100%", maxHeight: compact ? "40px" : "96px" }}
         priority={priority}
         onLoad={() => setImgLoaded(true)}
         onError={() => setImgError(true)}
