@@ -35,12 +35,12 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-reactivo-titulo"
-      className="fixed inset-0 z-[9999] flex items-end justify-center bg-black/40 backdrop-blur-sm p-4 sm:items-center"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
       onClick={handleClose}
     >
       {/* Panel - stopPropagation para que clic en el panel no cierre */}
       <div
-        className="relative w-full max-h-[90vh] overflow-hidden rounded-t-2xl bg-[var(--card)] shadow-2xl animate-slide-up sm:max-w-lg sm:rounded-2xl sm:animate-scale-in"
+        className="relative w-full max-h-[90vh] max-w-lg overflow-hidden rounded-2xl bg-[var(--card)] shadow-2xl animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header con gradiente guinda */}
