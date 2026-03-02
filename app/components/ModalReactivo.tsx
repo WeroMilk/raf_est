@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import type { ReactivoInfo } from "@/lib/reactivos-matematicas";
 
 interface Props {
@@ -9,11 +10,13 @@ interface Props {
 }
 
 export default function ModalReactivo({ reactivo, onClose }: Props) {
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     };
     document.addEventListener("keydown", handleKey);
     document.body.style.overflow = reactivo ? "hidden" : "";
@@ -21,32 +24,24 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
       document.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
     };
-  }, [reactivo, onClose]);
-
-  const handleBackdropClick = () => onClose();
+  }, [reactivo, handleClose]);
 
   if (!reactivo) return null;
 
   const correcta = reactivo.opciones.find((o) => o.letra.toUpperCase() === reactivo.respuestaCorrecta);
 
-  return (
+  const modalContent = (
     <div
-      ref={overlayRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-reactivo-titulo"
-      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4"
+      className="fixed inset-0 z-[9999] flex items-end justify-center bg-black/40 backdrop-blur-sm p-4 sm:items-center"
+      onClick={handleClose}
     >
-      {/* Backdrop - clic aquí cierra el modal */}
+      {/* Panel - stopPropagation para que clic en el panel no cierre */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in cursor-pointer"
-        aria-hidden
-        onClick={handleBackdropClick}
-      />
-
-      {/* Panel */}
-      <div
-        className="relative z-10 w-full max-h-[90vh] overflow-hidden rounded-t-2xl bg-[var(--card)] shadow-2xl animate-slide-up sm:max-w-lg sm:rounded-2xl sm:animate-scale-in"
+        className="relative w-full max-h-[90vh] overflow-hidden rounded-t-2xl bg-[var(--card)] shadow-2xl animate-slide-up sm:max-w-lg sm:rounded-2xl sm:animate-scale-in"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header con gradiente guinda */}
         <div
@@ -58,7 +53,7 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
           </h2>
           <button
             type="button"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClose(); }}
+            onClick={handleClose}
             className="touch-target -mr-2 flex h-10 w-10 min-w-[44px] min-h-[44px] items-center justify-center rounded-full text-white/90 transition hover:bg-white/20 active:bg-white/30 cursor-pointer"
             aria-label="Cerrar"
           >
@@ -129,4 +124,7 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(modalContent, document.body);
 }
