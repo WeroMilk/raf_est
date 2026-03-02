@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import type { ReactivoInfo } from "@/lib/reactivos-matematicas";
-import { COLORS } from "@/types/raf";
 
 interface Props {
   reactivo: ReactivoInfo | null;
@@ -24,9 +23,7 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
     };
   }, [reactivo, onClose]);
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) onClose();
-  };
+  const handleBackdropClick = () => onClose();
 
   if (!reactivo) return null;
 
@@ -39,31 +36,30 @@ export default function ModalReactivo({ reactivo, onClose }: Props) {
       aria-modal="true"
       aria-labelledby="modal-reactivo-titulo"
       className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4"
-      onClick={handleOverlayClick}
     >
-      {/* Backdrop */}
+      {/* Backdrop - clic aquí cierra el modal */}
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in cursor-pointer"
         aria-hidden
+        onClick={handleBackdropClick}
       />
 
       {/* Panel */}
       <div
-        className="relative w-full max-h-[90vh] overflow-hidden rounded-t-2xl bg-[var(--card)] shadow-2xl animate-slide-up sm:max-w-lg sm:rounded-2xl sm:animate-scale-in"
-        onClick={(e) => e.stopPropagation()}
+        className="relative z-10 w-full max-h-[90vh] overflow-hidden rounded-t-2xl bg-[var(--card)] shadow-2xl animate-slide-up sm:max-w-lg sm:rounded-2xl sm:animate-scale-in"
       >
-        {/* Header con gradiente */}
+        {/* Header con gradiente guinda */}
         <div
           className="flex items-center justify-between px-5 py-4 text-white"
-          style={{ background: `linear-gradient(135deg, ${COLORS.header} 0%, #5a8fd4 100%)` }}
+          style={{ background: "linear-gradient(135deg, #7B2D3E 0%, #9B3D4E 100%)" }}
         >
           <h2 id="modal-reactivo-titulo" className="text-lg font-semibold">
             Reactivo {reactivo.numero}
           </h2>
           <button
             type="button"
-            onClick={onClose}
-            className="touch-target -mr-2 flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition hover:bg-white/20 active:bg-white/30"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onClose(); }}
+            className="touch-target -mr-2 flex h-10 w-10 min-w-[44px] min-h-[44px] items-center justify-center rounded-full text-white/90 transition hover:bg-white/20 active:bg-white/30 cursor-pointer"
             aria-label="Cerrar"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
