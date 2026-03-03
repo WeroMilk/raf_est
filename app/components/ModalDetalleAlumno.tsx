@@ -12,9 +12,29 @@ interface Props {
   onClose: () => void;
 }
 
+const OPCIONES_VALIDAS = ["A", "B", "C", "D"] as const;
+
+/** Detecta si los datos usan formato C/X (C=correcto, X=incorrecto) en lugar de A/B/C/D */
+function usaFormatoCX(respuestas: string[]): boolean {
+  return respuestas.every((r) => {
+    const x = (r ?? "").toUpperCase().trim();
+    return x === "" || x === "-" || x === "C" || x === "X";
+  });
+}
+
+/** Respuesta para mostrar: A/B/C/D si la tenemos; C/X legacy: correcto→correcta, incorrecto→? */
+function respuestaParaMostrar(resp: string, correcta: string, esCorrecto: boolean): string {
+  const r = resp.toUpperCase().trim();
+  if (OPCIONES_VALIDAS.includes(r as (typeof OPCIONES_VALIDAS)[number])) return r;
+  if (esCorrecto) return correcta;
+  return "?";
+}
+
 function getAciertosErrores(respuestas: string[]) {
   const aciertos: number[] = [];
-  const errores: { num: number; marcado: string; correcta: string }[] = [];
+  const errores: { num: number; marcado: string; correcta: string; marcadoDisplay: string }[] = [];
+  const formatoCX = usaFormatoCX(respuestas);
+
   for (let i = 0; i < 12; i++) {
     const info = getReactivoInfo(i + 1);
     const resp = (respuestas[i] ?? "-").toUpperCase().trim();
@@ -22,10 +42,16 @@ function getAciertosErrores(respuestas: string[]) {
       continue;
     }
     const correcta = info.respuestaCorrecta;
-    if (resp === correcta) {
+    const esCorrecto = formatoCX ? resp === "C" : resp === correcta;
+    if (esCorrecto) {
       aciertos.push(i + 1);
     } else {
-      errores.push({ num: i + 1, marcado: resp, correcta });
+      errores.push({
+        num: i + 1,
+        marcado: resp,
+        correcta,
+        marcadoDisplay: respuestaParaMostrar(resp, correcta, false),
+      });
     }
   }
   return { aciertos, errores };
@@ -53,6 +79,9 @@ export default function ModalDetalleAlumno({ alumno, cct, onClose }: Props) {
   const totalCorrectas = aciertos.length;
   const totalConExamen = aciertos.length + errores.length;
   const sinExamen = totalConExamen === 0;
+  const porcentajeCalculado = totalConExamen > 0 ? Math.round((totalCorrectas / totalConExamen) * 1000) / 10 : 0;
+  const nivelCalculado =
+    sinExamen ? alumno.nivel : porcentajeCalculado <= 50 ? "REQUIERE APOYO" : porcentajeCalculado <= 80 ? "EN DESARROLLO" : "ESPERADO";
 
   const modalContent = (
     <div
@@ -91,16 +120,16 @@ export default function ModalDetalleAlumno({ alumno, cct, onClose }: Props) {
             <span className="rounded-full bg-[var(--fill-tertiary)] px-3 py-1 text-sm font-medium">
               {alumno.grupo}
             </span>
-            {alumno.porcentaje != null && (
+            {!sinExamen && (
               <span className="rounded-full bg-[var(--fill-tertiary)] px-3 py-1 text-sm font-semibold">
-                {alumno.porcentaje}%
+                {porcentajeCalculado}%
               </span>
             )}
             <span
               className="rounded-full px-3 py-1 text-sm font-medium text-white"
-              style={{ backgroundColor: NIVEL_COLOR[alumno.nivel] ?? "#757575" }}
+              style={{ backgroundColor: NIVEL_COLOR[nivelCalculado] ?? "#757575" }}
             >
-              {alumno.nivel === "REQUIERE APOYO" ? "Apoyo" : alumno.nivel === "EN DESARROLLO" ? "Desarrollo" : alumno.nivel === "ESPERADO" ? "Esperado" : alumno.nivel}
+              {nivelCalculado === "REQUIERE APOYO" ? "Apoyo" : nivelCalculado === "EN DESARROLLO" ? "Desarrollo" : nivelCalculado === "ESPERADO" ? "Esperado" : nivelCalculado}
             </span>
             {cct && (
               <span className="rounded-full bg-[var(--fill-tertiary)] px-3 py-1 text-xs text-[var(--foreground)]/70">
@@ -131,9 +160,11 @@ export default function ModalDetalleAlumno({ alumno, cct, onClose }: Props) {
                   const resp = (respuestas[i] ?? "-").toUpperCase().trim();
                   const info = getReactivoInfo(num);
                   const correcta = info?.respuestaCorrecta ?? "";
-                  const esCorrecto = resp !== "-" && resp !== "" && resp === correcta;
-                  const esError = resp !== "-" && resp !== "" && resp !== correcta;
+                  const formatoCX = usaFormatoCX(respuestas);
+                  const esCorrecto = formatoCX ? resp === "C" : (resp !== "-" && resp !== "" && resp === correcta);
+                  const esError = resp !== "-" && resp !== "" && !esCorrecto;
                   const sinResponder = resp === "-" || resp === "";
+                  const letraMostrar = esCorrecto ? correcta : esError ? respuestaParaMostrar(resp, correcta, false) : null;
 
                   return (
                     <div
@@ -145,11 +176,11 @@ export default function ModalDetalleAlumno({ alumno, cct, onClose }: Props) {
                             ? "border-[var(--requiere-apoyo)] bg-[var(--requiere-apoyo)]/10"
                             : "border-[var(--border)] bg-[var(--fill-tertiary)]/50"
                       }`}
-                      title={info ? `R${num}: ${info.evalua} - ${esCorrecto ? "Correcto" : esError ? `Marcó ${resp}, correcta ${correcta}` : "Sin responder"}` : ""}
+                      title={info ? `R${num}: ${info.evalua} - ${esCorrecto ? `Correcto (${correcta})` : esError ? `Marcó ${letraMostrar}, correcta ${correcta}` : "Sin responder"}` : ""}
                     >
                       <span className="text-[10px] font-medium text-[var(--foreground)]/70">R{num}</span>
-                      {esCorrecto && <span className="text-sm font-bold text-[var(--esperado)]">✓</span>}
-                      {esError && <span className="text-sm font-bold text-[var(--requiere-apoyo)]">✗</span>}
+                      {esCorrecto && <span className="text-sm font-bold text-[var(--esperado)]">✓ {correcta}</span>}
+                      {esError && <span className="text-sm font-bold text-[var(--requiere-apoyo)]">✗ {letraMostrar}</span>}
                       {sinResponder && <span className="text-xs text-[var(--foreground)]/50">—</span>}
                     </div>
                   );
@@ -160,13 +191,18 @@ export default function ModalDetalleAlumno({ alumno, cct, onClose }: Props) {
               {errores.length > 0 && (
                 <div className="rounded-xl border border-[var(--border)] bg-[var(--fill-tertiary)]/30 px-4 py-3">
                   <p className="text-xs font-semibold text-[var(--foreground)]/80 mb-2">Errores (Reactivo · marcó · correcta)</p>
+                  {errores.some((e) => e.marcadoDisplay === "?") && (
+                    <p className="text-[10px] text-[var(--foreground)]/60 mb-1.5 italic">? = la fuente no registra la opción que eligió el alumno</p>
+                  )}
                   <div className="space-y-1">
                     {errores.map((e) => {
                       const info = getReactivoInfo(e.num);
                       return (
                         <div key={e.num} className="flex items-center gap-2 text-xs">
                           <span className="font-medium">R{e.num}:</span>
-                          <span className="text-[var(--requiere-apoyo)]">{e.marcado}</span>
+                          <span className="text-[var(--requiere-apoyo)]" title={e.marcadoDisplay === "?" ? "La fuente de datos no registra la opción seleccionada" : undefined}>
+                            {e.marcadoDisplay}
+                          </span>
                           <span>→</span>
                           <span className="text-[var(--esperado)] font-medium">{e.correcta}</span>
                           {info && (
