@@ -73,7 +73,12 @@ export default function ChartBarrasReactivos({ porcentajes, title, totalAlumnos 
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
             <XAxis dataKey="reactivo" tick={{ fontSize: 8 }} />
-            <YAxis domain={[0, 100]} tick={{ fontSize: 8 }} unit="%" width={24} />
+            <YAxis
+              domain={[0, 100]}
+              tick={{ fontSize: 8 }}
+              tickFormatter={(v) => `${v}%`}
+              width={28}
+            />
             <Tooltip content={<TooltipAciertos />} />
             <Bar
               dataKey="porcentaje"
