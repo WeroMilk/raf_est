@@ -105,12 +105,8 @@ export default function LoginPage() {
             {loading ? "Entrando…" : "Entrar"}
           </button>
         </form>
-        <div className="mt-auto pt-10 text-xs text-foreground/50">
-          <p>Mtra. Martha Camargo</p>
-          <p className="mt-1 text-[11px] text-foreground/40">
-            Software Desarrollado por Luis Alfonso Silvas
-          </p>
-        </div>
+        <p className="mt-auto pt-10 text-xs text-foreground/50">Mtra. Martha Camargo</p>
+        <p className="text-xs text-foreground/50">Software Desarrollado por Luis Alfonso Silvas</p>
       </div>
     </div>
   );
